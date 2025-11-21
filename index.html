@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>시즈오카 여행 가이드 V23</title>
+<title>시즈오카 여행 가이드 V24</title>
 <style>
     /* --- 1. 기본 설정 --- */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -182,11 +182,11 @@
             flower: "카와즈 벚꽃 만개 시즌 예상!",
             warn48: "13:30 이후 수령 권장 (48H 세이브)",
             prev: "이전 날", next: "다음 날", top: "맨 위로",
-            days: ["x/xx (목)", "x/xx (금)", "x/xx (토)", "x/xx (일)", "x/xx (월)"],
+            days: ["2/19 (목)", "2/20 (금)", "2/21 (토)", "2/22 (일)", "2/23 (월)"],
             dayTitles: ["시즈오카 도착 (09:10)", "후지산 투어", "요코하마 관광", "🌸 벚꽃 & 레트로 도쿄", "귀국 (17:00)"],
             chkTitleCar: "🚗 드라이브 준비물", chkTitlePub: "🚌 뚜벅이 준비물",
             // 정보 탭
-            infoTitle1: "🆘 긴급 연락처 (터치 시 연결)",
+            infoTitle1: "🆘 긴급 연락처 (터치 시 2단계 확인)", // 텍스트 변경
             infoTitle2: "🔗 필수 웹사이트",
             infoTitle3: "💡 여행 기초 상식",
             police: "경찰서", fire: "화재/구급차", embassy: "주일본 한국대사관",
@@ -225,7 +225,7 @@
                 {t:"19:00", title:{ko:"아오바 오뎅거리", ja:"青葉おでん街"}, desc:{ko:"검은 오뎅+맥주 (저녁)", ja:"静岡おでん+ビール"}, trans:{ko:"[🚗 시내 복귀 | 35분]", ja:"[🚗 市内復帰 | 35分]"}, emoji:"🍺", type:"food", loc:"Aoba Oden Street"}
             ],
             [ // Day 2
-                {t:"08:30", title:{ko:"호텔 출발", ja:"ホテル出発"}, desc:{ko:"아침 맑은 공기 마시며 출발", ja:"朝の澄んだ空気で出発"}, emoji:"🚗", type:"car"},
+                {t:"08:30", title:{ko:"호텔 출발", ja:"ホテル出発"}, desc:{ko:"아침 맑은 공기 마시며 출발", ja:"朝の澄んだ空気으로 출발"}, emoji:"🚗", type:"car"},
                 {t:"09:30", title:{ko:"📍 후지산 꿈의 대교", ja:"📍 富士山夢の大橋"}, desc:{ko:"육교 위 인생샷", ja:"歩道橋での記念撮影"}, trans:{ko:"[🚗 고속도로/국도 | 45분]", ja:"[🚗 高速/国道 | 45分]"}, emoji:"📷", type:"camera", loc:"Fuji Central Park", p:"Free", warn:true},
                 {t:"10:30", title:{ko:"오부치사사바", ja:"大淵笹場"}, desc:{ko:"후지산+녹차밭 뷰", ja:"富士山+茶畑の絶景"}, trans:{ko:"[🚗 국도 이동 | 20분]", ja:"[🚗 国道移動 | 20分]"}, emoji:"📷", type:"camera", loc:"Obuchi Sasaba", p:"Free"},
                 {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, trans:{ko:"[🚗 국도 이동 | 25분]", ja:"[🚗 国道移動 | 25分]"}, emoji:"💧", type:"water", loc:"Shiraito Falls", p:"500¥"},
@@ -290,6 +290,15 @@
     ];
     
     TRIP_EVENTS.public = pubEvents;
+
+    // --- 안전 호출 함수 (2단계 확인) ---
+    window.safeCall = function(number, name) {
+        if (confirm(name + " (" + number + ") 연결하시겠습니까?")) {
+            if (confirm("정말로 연결하시겠습니까? (비상 시에만 사용하세요)")) {
+                window.location.href = "tel:" + number;
+            }
+        }
+    };
 
     // --- 렌더링 함수 ---
     function render() {
@@ -441,9 +450,10 @@
             
             // 1. 긴급 연락처
             var infoHtml = '<div class="card"><h2 class="card-title" style="margin-bottom:1rem;">'+txt.infoTitle1+'</h2>';
-            infoHtml += '<a href="tel:110" class="info-item"><div class="info-label">👮‍♂️ '+txt.police+'</div><span class="call-btn">110</span></a>';
-            infoHtml += '<a href="tel:119" class="info-item"><div class="info-label">🚑 '+txt.fire+'</div><span class="call-btn">119</span></a>';
-            infoHtml += '<a href="tel:+81-3-3452-7611" class="info-item"><div class="info-label">🇰🇷 '+txt.embassy+'</div><span class="call-btn">Call</span></a>';
+            // 수정된 부분: href="tel:..." 대신 onclick 사용
+            infoHtml += '<div class="info-item" onclick="safeCall(\'110\', \''+txt.police+'\')"><div class="info-label">👮‍♂️ '+txt.police+'</div><span class="call-btn">110</span></div>';
+            infoHtml += '<div class="info-item" onclick="safeCall(\'119\', \''+txt.fire+'\')"><div class="info-label">🚑 '+txt.fire+'</div><span class="call-btn">119</span></div>';
+            infoHtml += '<div class="info-item" onclick="safeCall(\'+81-3-3452-7611\', \''+txt.embassy+'\')"><div class="info-label">🇰🇷 '+txt.embassy+'</div><span class="call-btn">Call</span></div>';
             infoHtml += '</div>';
 
             // 2. 필수 웹사이트
