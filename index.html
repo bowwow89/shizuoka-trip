@@ -2,61 +2,71 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>시즈오카 여행 가이드 V1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>시즈오카 도쿄 여행 V21</title>
 <style>
-    /* --- 1. 기본 설정 (Reset) --- */
+    /* --- 1. 기본 설정 --- */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f3f4f6; color: #1f2937; height: 100vh; display: flex; justify-content: center; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f3f4f6; color: #1f2937; height: 100dvh; display: flex; justify-content: center; overflow: hidden; }
     
     /* --- 2. 레이아웃 --- */
     .app-container { width: 100%; max-width: 480px; height: 100%; background-color: #f9fafb; display: flex; flex-direction: column; position: relative; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
     
-    /* --- 3. 헤더 스타일 --- */
-    header { padding: 1.5rem; padding-bottom: 2rem; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; color: white; flex-shrink: 0; transition: background 0.3s; }
-    .bg-gradient-car { background: linear-gradient(to right, #4f46e5, #3b82f6); } /* Indigo to Blue */
-    .bg-gradient-pub { background: linear-gradient(to right, #0d9488, #10b981); } /* Teal to Emerald */
+    /* --- 3. 헤더 --- */
+    header { padding: 1.5rem; padding-bottom: 1.5rem; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; color: white; flex-shrink: 0; transition: all 0.3s ease; z-index: 30; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    header.shrink { padding-top: 0.75rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem; border-radius: 0 0 1rem 1rem; }
     
-    .lang-btn { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.4rem 0.8rem; border-radius: 9999px; font-size: 0.75rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 4px; }
-    .title { font-size: 1.5rem; font-weight: 800; margin-top: 0.5rem; margin-bottom: 1rem; }
+    .bg-gradient-car { background: linear-gradient(to right, #4f46e5, #3b82f6); }
+    .bg-gradient-pub { background: linear-gradient(to right, #0d9488, #10b981); }
     
-    /* 모드 전환 토글 */
-    .toggle-container { background: rgba(0,0,0,0.1); padding: 0.25rem; border-radius: 0.75rem; display: flex; }
+    .lang-btn { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.4rem 0.8rem; border-radius: 9999px; font-size: 0.75rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 4px; transition: all 0.3s ease; }
+    header.shrink .lang-btn { top: 0.75rem; right: 1rem; padding: 0.2rem 0.6rem; font-size: 0.7rem; }
+
+    .title { font-size: 1.5rem; font-weight: 800; margin-top: 0.5rem; margin-bottom: 1rem; transition: all 0.3s ease; transform-origin: left top; }
+    header.shrink .title { font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem; }
+    
+    .toggle-container { background: rgba(0,0,0,0.1); padding: 0.25rem; border-radius: 0.75rem; display: flex; transition: all 0.3s ease; max-height: 50px; opacity: 1; }
+    header.shrink .toggle-container { padding: 0.15rem; }
+
     .toggle-btn { flex: 1; padding: 0.5rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; }
+    header.shrink .toggle-btn { padding: 0.3rem; font-size: 0.8rem; }
+
     .toggle-btn.active { background-color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
     .toggle-btn.inactive { background: transparent; color: rgba(255,255,255,0.8); }
-    
     .text-car { color: #4f46e5; }
     .text-pub { color: #0d9488; }
 
     /* --- 4. 메인 컨텐츠 --- */
-    main { flex: 1; overflow-y: auto; padding: 1rem; padding-top: 1.5rem; padding-bottom: 6rem; scroll-behavior: smooth; }
-    
+    main { flex: 1; overflow-y: auto; padding: 1rem; padding-top: 1.5rem; padding-bottom: 6rem; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
     /* 팁 박스 */
     .tip-box { background: white; padding: 1rem; border-radius: 1rem; border: 1px solid #e5e7eb; margin-bottom: 1rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); animation: fadeIn 0.5s ease-out; }
     .tip-title { font-size: 0.75rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
     .tip-item { font-size: 0.875rem; color: #4b5563; margin-bottom: 0.25rem; display: flex; gap: 0.5rem; }
-    
-    /* 일정 카드 */
-    .day-tabs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem; -ms-overflow-style: none; scrollbar-width: none; }
-    .day-tabs::-webkit-scrollbar { display: none; }
+
+    /* 카드 공통 */
+    .card { background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); animation: fadeIn 0.3s ease-out; margin-bottom: 1rem; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #f3f4f6; }
+    .card-title { font-size: 1.1rem; font-weight: 800; color: #1f2937; }
+
+    /* 일정 관련 */
+    .day-tabs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem; }
     .day-btn { flex-shrink: 0; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: bold; border: none; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .day-btn.active-car { background-color: #4f46e5; color: white; }
     .day-btn.active-pub { background-color: #0d9488; color: white; }
     .day-btn.inactive { background-color: white; color: #4b5563; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
-
-    .card { background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); animation: fadeIn 0.3s ease-out; min-height: 300px; }
-    .card-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #f3f4f6; }
+    
     .date-text { font-size: 0.875rem; font-weight: bold; display: block; margin-bottom: 0.25rem; }
     .title-text { font-size: 1.25rem; font-weight: 800; color: #1f2937; }
 
-    /* 타임라인 아이템 */
     .event-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; position: relative; }
     .event-item::before { content: ''; position: absolute; left: 19px; top: 2rem; bottom: -1.5rem; width: 2px; background-color: #f3f4f6; z-index: 0; }
     .event-item:last-child::before { display: none; }
     .icon-box { width: 40px; height: 40px; flex-shrink: 0; background-color: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 1; position: relative; }
-    
-    /* 아이콘 색상 테마 */
+
+    /* 아이콘 색상 */
     .icon-fly { background-color: #dbeafe; color: #2563eb; }
     .icon-car { background-color: #e0e7ff; color: #4f46e5; }
     .icon-food { background-color: #ffedd5; color: #ea580c; }
@@ -76,17 +86,17 @@
     .event-desc { font-size: 0.875rem; color: #6b7280; line-height: 1.4; white-space: pre-wrap; }
     .trans-info { font-size: 0.8rem; color: #059669; font-weight: 600; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
     
-    /* 뱃지들 */
     .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; padding: 4px 8px; border-radius: 6px; margin-top: 0.5rem; margin-right: 4px; }
     .badge-park { background: #f3f4f6; color: #4b5563; }
     .badge-warn { background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; }
     .badge-flower { background: #fdf2f8; color: #db2777; border: 1px solid #fce7f3; }
     .badge-time { background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; }
+    
     .btn-map { font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: auto; float: right; transition: background 0.2s; }
     .btn-map-car { color: #4f46e5; background: #e0e7ff; }
     .btn-map-pub { color: #0d9488; background: #ccfbf1; }
 
-    /* 체크리스트 */
+    /* 체크리스트 & 정보 탭 */
     .check-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid #f3f4f6; border-radius: 0.5rem; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s; background: white; }
     .check-box { width: 1.25rem; height: 1.25rem; border-radius: 0.25rem; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; transition: all 0.2s; }
     .check-item.checked { background-color: #f9fafb; border-color: #e5e7eb; }
@@ -94,17 +104,24 @@
     .check-item.checked .check-box-car { background-color: #4f46e5; border-color: #4f46e5; }
     .check-item.checked .check-box-pub { background-color: #0d9488; border-color: #0d9488; }
 
+    /* 정보 탭 스타일 */
+    .info-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #f3f4f6; cursor: pointer; text-decoration: none; color: inherit; transition: background 0.2s; }
+    .info-item:last-child { border-bottom: none; }
+    .info-item:active { background-color: #f9fafb; }
+    .info-label { font-size: 0.95rem; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 0.75rem; }
+    .info-val { font-size: 0.875rem; color: #6b7280; }
+    .call-btn { background: #fee2e2; color: #dc2626; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: bold; }
+    .link-btn { background: #e0e7ff; color: #4f46e5; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: bold; }
+
     /* --- 5. 하단 네비게이션 --- */
-    nav { background: white; border-top: 1px solid #e5e7eb; padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; z-index: 20; padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+    nav { background: white; border-top: 1px solid #e5e7eb; padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; z-index: 20; padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)); }
     .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: none; cursor: pointer; color: #9ca3af; font-size: 0.75rem; font-weight: 600; width: 33%; }
     .nav-btn.active-car { color: #4f46e5; }
     .nav-btn.active-pub { color: #0d9488; }
     .nav-icon { width: 24px; height: 24px; margin-bottom: 2px; }
 
-    /* 애니메이션 */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* 하단 이동 버튼 */
     .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px dashed #e5e7eb; }
     .nav-control-btn { font-size: 0.875rem; font-weight: bold; color: #6b7280; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; }
     .btn-top { background: #f3f4f6; padding: 8px; border-radius: 50%; }
@@ -114,52 +131,34 @@
 <body>
 
 <div class="app-container">
-    
-    <!-- Header -->
     <header id="main-header" class="bg-gradient-car">
-        <button onclick="toggleLang()" class="lang-btn">
-            🌐 <span id="lang-text">日本語</span>
-        </button>
+        <button onclick="toggleLang()" class="lang-btn">🌐 <span id="lang-text">日本語</span></button>
         <div id="app-title" class="title">시즈오카 & 후지산</div>
-        
         <div class="toggle-container">
-            <button onclick="setMode('car')" id="btn-car" class="toggle-btn active text-car">
-                🚗 <span class="txt-car">렌트카</span>
-            </button>
-            <button onclick="setMode('public')" id="btn-public" class="toggle-btn inactive">
-                🚆 <span class="txt-public">대중교통</span>
-            </button>
+            <button onclick="setMode('car')" id="btn-car" class="toggle-btn active text-car">🚗 <span class="txt-car">렌트카</span></button>
+            <button onclick="setMode('public')" id="btn-public" class="toggle-btn inactive">🚆 <span class="txt-public">대중교통</span></button>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main id="main-scroll">
-        <!-- Tip Box -->
-        <div class="tip-box">
+        <!-- 팁 박스는 일정 탭에서만 보임 -->
+        <div id="tip-container" class="tip-box">
             <h3 id="tip-title" class="tip-title">🚗 렌트카 & 주차 팁</h3>
-            <ul id="tip-list">
-                <!-- JS injected -->
-            </ul>
+            <ul id="tip-list"></ul>
         </div>
-
-        <!-- Dynamic Content -->
         <div id="content-area"></div>
     </main>
 
-    <!-- Bottom Nav -->
     <nav>
         <button onclick="setTab('itinerary')" id="nav-btn-sch" class="nav-btn active-car">
-            <!-- Calendar Icon SVG -->
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span class="txt-sch">일정</span>
         </button>
         <button onclick="setTab('check')" id="nav-btn-chk" class="nav-btn">
-            <!-- Check Icon SVG -->
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
             <span class="txt-chk">체크</span>
         </button>
-        <button onclick="alert('준비 중입니다!')" class="nav-btn">
-            <!-- Info Icon SVG -->
+        <button onclick="setTab('info')" id="nav-btn-info" class="nav-btn">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
             <span class="txt-info">정보</span>
         </button>
@@ -168,20 +167,12 @@
 </div>
 
 <script>
-    /* --- 데이터 및 로직 (순수 JS) --- */
-    
-    var appState = {
-        tab: 'itinerary',
-        day: 1,
-        mode: 'car', 
-        lang: 'ko',
-        checks: {}
-    };
+    var appState = { tab: 'itinerary', day: 1, mode: 'car', lang: 'ko', checks: {} };
 
+    // --- 데이터 ---
     var LOCALE_DATA = {
         ko: {
-            title: "시즈오카 & 후지산", rent: "렌트카", pub: "대중교통",
-            sch: "일정", chk: "체크", info: "정보",
+            title: "시즈오카 & 후지산", rent: "렌트카", pub: "대중교통", sch: "일정", chk: "체크", info: "정보",
             tipTitleCar: "🚗 렌트카 & 주차 팁", tipTitlePub: "🚌 뚜벅이 모드 팁",
             tipsCar: ["13:30 이후 수령 시 48H 요금 적용!", "관광지 주차는 대부분 무료!"],
             tipsPub: ["이동 시간은 넉넉히! 구글맵 필수", "도쿄에서 벚꽃 보려면 2월 말이 딱!"],
@@ -191,11 +182,17 @@
             prev: "이전 날", next: "다음 날", top: "맨 위로",
             days: ["2/19 (목)", "2/20 (금)", "2/21 (토)", "2/22 (일)", "2/23 (월)"],
             dayTitles: ["시즈오카 도착 (09:10)", "후지산 투어", "요코하마 관광", "🌸 벚꽃 & 레트로 도쿄", "귀국 (17:00)"],
-            chkTitleCar: "🚗 드라이브 준비물", chkTitlePub: "🚌 뚜벅이 준비물"
+            chkTitleCar: "🚗 드라이브 준비물", chkTitlePub: "🚌 뚜벅이 준비물",
+            // 정보 탭
+            infoTitle1: "🆘 긴급 연락처 (터치 시 연결)",
+            infoTitle2: "🔗 필수 웹사이트",
+            infoTitle3: "💡 여행 기초 상식",
+            police: "경찰서", fire: "화재/구급차", embassy: "주일본 한국대사관",
+            visitJapan: "비짓재팬웹 (입국수속)", translate: "구글 번역기", weather: "시즈오카 날씨",
+            volt: "전압 110V (돼지코 필수)", tip: "팁 문화 없음", taxfree: "면세 5,500엔 이상"
         },
         ja: {
-            title: "静岡 & 富士山", rent: "レンタカー", pub: "公共交通",
-            sch: "日程", chk: "チェック", info: "情報",
+            title: "静岡 & 富士山", rent: "レンタカー", pub: "公共交通", sch: "日程", chk: "チェック", info: "情報",
             tipTitleCar: "🚗 レンタカー & 駐車のコツ", tipTitlePub: "🚌 公共交通のコツ",
             tipsCar: ["13:30以降受取で48H料金適用！", "観光地の駐車はほぼ無料！"],
             tipsPub: ["移動時間は余裕を持って！", "東京で桜を見るなら2月下旬がベスト！"],
@@ -205,10 +202,15 @@
             prev: "前日", next: "翌日", top: "トップへ",
             days: ["2/19 (木)", "2/20 (金)", "2/21 (土)", "2/22 (日)", "2/23 (月)"],
             dayTitles: ["静岡到着 (09:10)", "富士山ツアー", "横浜観光", "🌸 桜 & レトロ東京", "帰国 (17:00)"],
-            chkTitleCar: "🚗 ドライブ準備物", chkTitlePub: "🚌 徒歩旅行準備物"
+            chkTitleCar: "🚗 ドライブ準備物", chkTitlePub: "🚌 徒歩旅行準備物",
+            infoTitle1: "🆘 緊急連絡先", infoTitle2: "🔗 必須ウェブサイト", infoTitle3: "💡 旅行基礎知識",
+            police: "警察", fire: "消防/救急", embassy: "韓国大使館",
+            visitJapan: "Visit Japan Web", translate: "Google翻訳", weather: "静岡の天気",
+            volt: "電圧 110V (アダプタ必須)", tip: "チップ不要", taxfree: "免税 5,500円以上"
         }
     };
 
+    // 일정 데이터 (이전 버전과 동일)
     var TRIP_EVENTS = {
         car: [
             [ // Day 1
@@ -306,6 +308,7 @@
         var btnPub = document.getElementById('btn-public');
         var navSch = document.getElementById('nav-btn-sch');
         var navChk = document.getElementById('nav-btn-chk');
+        var navInfo = document.getElementById('nav-btn-info');
 
         if (appState.mode === 'car') {
             header.className = 'bg-gradient-car';
@@ -313,29 +316,38 @@
             btnPub.className = 'toggle-btn inactive';
             navSch.className = appState.tab === 'itinerary' ? 'nav-btn active-car' : 'nav-btn';
             navChk.className = appState.tab === 'check' ? 'nav-btn active-car' : 'nav-btn';
+            navInfo.className = appState.tab === 'info' ? 'nav-btn active-car' : 'nav-btn';
         } else {
             header.className = 'bg-gradient-pub';
             btnCar.className = 'toggle-btn inactive';
             btnPub.className = 'toggle-btn active text-pub';
             navSch.className = appState.tab === 'itinerary' ? 'nav-btn active-pub' : 'nav-btn';
             navChk.className = appState.tab === 'check' ? 'nav-btn active-pub' : 'nav-btn';
+            navInfo.className = appState.tab === 'info' ? 'nav-btn active-pub' : 'nav-btn';
         }
 
         // 3. 컨텐츠
         var content = document.getElementById('content-area');
+        var tipContainer = document.getElementById('tip-container');
         content.innerHTML = '';
 
         // 팁 박스
-        document.getElementById('tip-title').innerText = appState.mode === 'car' ? txt.tipTitleCar : txt.tipTitlePub;
-        var tips = appState.mode === 'car' ? txt.tipsCar : txt.tipsPub;
-        var tipHtml = '';
-        var dotColor = appState.mode === 'car' ? 'text-car' : 'text-pub';
-        tips.forEach(function(t) {
-            tipHtml += '<li class="tip-item"><span style="font-weight:bold" class="'+dotColor+'">✔</span> ' + t + '</li>';
-        });
-        document.getElementById('tip-list').innerHTML = tipHtml;
+        if (appState.tab === 'itinerary') {
+            tipContainer.style.display = 'block';
+            document.getElementById('tip-title').innerText = appState.mode === 'car' ? txt.tipTitleCar : txt.tipTitlePub;
+            var tips = appState.mode === 'car' ? txt.tipsCar : txt.tipsPub;
+            var tipHtml = '';
+            var dotColor = appState.mode === 'car' ? 'text-car' : 'text-pub';
+            tips.forEach(function(t) {
+                tipHtml += '<li class="tip-item"><span style="font-weight:bold" class="'+dotColor+'">✔</span> ' + t + '</li>';
+            });
+            document.getElementById('tip-list').innerHTML = tipHtml;
+        } else {
+            tipContainer.style.display = 'none';
+        }
 
         if (appState.tab === 'itinerary') {
+            // [일정 탭]
             var daysHtml = '<div class="day-tabs">';
             txt.days.forEach(function(d, i) {
                 var isActive = (i + 1) === appState.day;
@@ -394,7 +406,8 @@
             
             content.innerHTML = daysHtml + eventsHtml;
 
-        } else {
+        } else if (appState.tab === 'check') {
+            // [체크리스트 탭]
             var chkTitle = appState.mode === 'car' ? txt.chkTitleCar : txt.chkTitlePub;
             var chkList = [
                 {id:"c1", ko:"여권 & 항공권", ja:"パスポート & 航空券"},
@@ -421,6 +434,32 @@
             });
             listHtml += '</div>';
             content.innerHTML = listHtml;
+        
+        } else if (appState.tab === 'info') {
+            // [정보 탭] - 긴급연락처, 링크, 기본정보
+            
+            // 1. 긴급 연락처
+            var infoHtml = '<div class="card"><h2 class="card-title" style="margin-bottom:1rem;">'+txt.infoTitle1+'</h2>';
+            infoHtml += '<a href="tel:110" class="info-item"><div class="info-label">👮‍♂️ '+txt.police+'</div><span class="call-btn">110</span></a>';
+            infoHtml += '<a href="tel:119" class="info-item"><div class="info-label">🚑 '+txt.fire+'</div><span class="call-btn">119</span></a>';
+            infoHtml += '<a href="tel:+81-3-3452-7611" class="info-item"><div class="info-label">🇰🇷 '+txt.embassy+'</div><span class="call-btn">Call</span></a>';
+            infoHtml += '</div>';
+
+            // 2. 필수 웹사이트
+            infoHtml += '<div class="card"><h2 class="card-title" style="margin-bottom:1rem;">'+txt.infoTitle2+'</h2>';
+            infoHtml += '<a href="https://www.vjw.digital.go.jp/" target="_blank" class="info-item"><div class="info-label">📝 '+txt.visitJapan+'</div><span class="link-btn">Go</span></a>';
+            infoHtml += '<a href="https://translate.google.co.kr/" target="_blank" class="info-item"><div class="info-label">🗣️ '+txt.translate+'</div><span class="link-btn">Go</span></a>';
+            infoHtml += '<a href="https://tenki.jp/forecast/5/25/" target="_blank" class="info-item"><div class="info-label">☀️ '+txt.weather+'</div><span class="link-btn">Go</span></a>';
+            infoHtml += '</div>';
+
+            // 3. 여행 기초 상식
+            infoHtml += '<div class="card"><h2 class="card-title" style="margin-bottom:1rem;">'+txt.infoTitle3+'</h2>';
+            infoHtml += '<div class="info-item"><div class="info-label">⚡ '+txt.volt+'</div></div>';
+            infoHtml += '<div class="info-item"><div class="info-label">💸 '+txt.tip+'</div></div>';
+            infoHtml += '<div class="info-item"><div class="info-label">🛍️ '+txt.taxfree+'</div></div>';
+            infoHtml += '</div>';
+            
+            content.innerHTML = infoHtml;
         }
     }
 
@@ -432,6 +471,16 @@
     window.openMap = function(q) { window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q), '_blank'); };
     window.toggleCheck = function(id) { appState.checks[id] = !appState.checks[id]; render(); };
     window.scrollToTop = function() { document.getElementById('main-scroll').scrollTo({ top: 0, behavior: 'smooth' }); };
+
+    // 스크롤 이벤트 (헤더 축소)
+    document.getElementById('main-scroll').addEventListener('scroll', function() {
+        var header = document.getElementById('main-header');
+        if (this.scrollTop > 20) {
+            header.classList.add('shrink');
+        } else {
+            header.classList.remove('shrink');
+        }
+    });
 
     render();
 </script>
