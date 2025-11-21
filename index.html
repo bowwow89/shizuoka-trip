@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>시즈오카 여행 가이드</title>
+<style>
+    /* --- 1. 기본 설정 (Reset) --- */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f3f4f6; color: #1f2937; height: 100vh; display: flex; justify-content: center; overflow: hidden; }
+    
+    /* --- 2. 레이아웃 --- */
+    .app-container { width: 100%; max-width: 480px; height: 100%; background-color: #f9fafb; display: flex; flex-direction: column; position: relative; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    
+    /* --- 3. 헤더 스타일 --- */
+    header { padding: 1.5rem; padding-bottom: 2rem; border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; color: white; flex-shrink: 0; transition: background 0.3s; }
+    .bg-gradient-car { background: linear-gradient(to right, #4f46e5, #3b82f6); } /* Indigo to Blue */
+    .bg-gradient-pub { background: linear-gradient(to right, #0d9488, #10b981); } /* Teal to Emerald */
+    
+    .lang-btn { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.4rem 0.8rem; border-radius: 9999px; font-size: 0.75rem; font-weight: bold; cursor: pointer; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 4px; }
+    .title { font-size: 1.5rem; font-weight: 800; margin-top: 0.5rem; margin-bottom: 1rem; }
+    
+    /* 모드 전환 토글 */
+    .toggle-container { background: rgba(0,0,0,0.1); padding: 0.25rem; border-radius: 0.75rem; display: flex; }
+    .toggle-btn { flex: 1; padding: 0.5rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; }
+    .toggle-btn.active { background-color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .toggle-btn.inactive { background: transparent; color: rgba(255,255,255,0.8); }
+    
+    .text-car { color: #4f46e5; }
+    .text-pub { color: #0d9488; }
+
+    /* --- 4. 메인 컨텐츠 --- */
+    main { flex: 1; overflow-y: auto; padding: 1rem; padding-top: 1.5rem; padding-bottom: 6rem; scroll-behavior: smooth; }
+    
+    /* 팁 박스 */
+    .tip-box { background: white; padding: 1rem; border-radius: 1rem; border: 1px solid #e5e7eb; margin-bottom: 1rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); animation: fadeIn 0.5s ease-out; }
+    .tip-title { font-size: 0.75rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+    .tip-item { font-size: 0.875rem; color: #4b5563; margin-bottom: 0.25rem; display: flex; gap: 0.5rem; }
+    
+    /* 일정 카드 */
+    .day-tabs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem; -ms-overflow-style: none; scrollbar-width: none; }
+    .day-tabs::-webkit-scrollbar { display: none; }
+    .day-btn { flex-shrink: 0; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: bold; border: none; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .day-btn.active-car { background-color: #4f46e5; color: white; }
+    .day-btn.active-pub { background-color: #0d9488; color: white; }
+    .day-btn.inactive { background-color: white; color: #4b5563; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+
+    .card { background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); animation: fadeIn 0.3s ease-out; min-height: 300px; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #f3f4f6; }
+    .date-text { font-size: 0.875rem; font-weight: bold; display: block; margin-bottom: 0.25rem; }
+    .title-text { font-size: 1.25rem; font-weight: 800; color: #1f2937; }
+
+    /* 타임라인 아이템 */
+    .event-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; position: relative; }
+    .event-item::before { content: ''; position: absolute; left: 19px; top: 2rem; bottom: -1.5rem; width: 2px; background-color: #f3f4f6; z-index: 0; }
+    .event-item:last-child::before { display: none; }
+    .icon-box { width: 40px; height: 40px; flex-shrink: 0; background-color: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 1; position: relative; }
+    
+    /* 아이콘 색상 테마 */
+    .icon-fly { background-color: #dbeafe; color: #2563eb; }
+    .icon-car { background-color: #e0e7ff; color: #4f46e5; }
+    .icon-food { background-color: #ffedd5; color: #ea580c; }
+    .icon-camera { background-color: #fce7f3; color: #db2777; }
+    .icon-cloud { background-color: #cffafe; color: #0891b2; }
+    
+    .event-content { flex: 1; padding-top: 0.25rem; }
+    .time-badge { font-size: 0.75rem; font-weight: bold; color: #6b7280; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px;}
+    .event-title { font-size: 1rem; font-weight: bold; color: #1f2937; margin-bottom: 0.25rem; }
+    .event-desc { font-size: 0.875rem; color: #6b7280; line-height: 1.4; }
+    
+    /* 뱃지들 */
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; padding: 4px 8px; border-radius: 6px; margin-top: 0.5rem; margin-right: 4px; }
+    .badge-park { background: #f3f4f6; color: #4b5563; }
+    .badge-warn { background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; }
+    .badge-flower { background: #fdf2f8; color: #db2777; border: 1px solid #fce7f3; }
+    .badge-time { background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; }
+    .btn-map { font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: auto; float: right; transition: background 0.2s; }
+    .btn-map-car { color: #4f46e5; background: #e0e7ff; }
+    .btn-map-pub { color: #0d9488; background: #ccfbf1; }
+
+    /* 체크리스트 */
+    .check-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid #f3f4f6; border-radius: 0.5rem; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s; background: white; }
+    .check-box { width: 1.25rem; height: 1.25rem; border-radius: 0.25rem; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; transition: all 0.2s; }
+    .check-item.checked { background-color: #f9fafb; border-color: #e5e7eb; }
+    .check-item.checked span { color: #9ca3af; text-decoration: line-through; }
+    .check-item.checked .check-box-car { background-color: #4f46e5; border-color: #4f46e5; }
+    .check-item.checked .check-box-pub { background-color: #0d9488; border-color: #0d9488; }
+
+    /* --- 5. 하단 네비게이션 --- */
+    nav { background: white; border-top: 1px solid #e5e7eb; padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; z-index: 20; padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: none; cursor: pointer; color: #9ca3af; font-size: 0.75rem; font-weight: 600; width: 33%; }
+    .nav-btn.active-car { color: #4f46e5; }
+    .nav-btn.active-pub { color: #0d9488; }
+    .nav-icon { width: 24px; height: 24px; margin-bottom: 2px; }
+
+    /* 애니메이션 */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* 하단 이동 버튼 */
+    .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px dashed #e5e7eb; }
+    .nav-control-btn { font-size: 0.875rem; font-weight: bold; color: #6b7280; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .btn-top { background: #f3f4f6; padding: 8px; border-radius: 50%; }
+
+</style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- Header -->
+    <header id="main-header" class="bg-gradient-car">
+        <button onclick="toggleLang()" class="lang-btn">
+            🌐 <span id="lang-text">日本語</span>
+        </button>
+        <div id="app-title" class="title">시즈오카 & 후지산</div>
+        
+        <div class="toggle-container">
+            <button onclick="setMode('car')" id="btn-car" class="toggle-btn active text-car">
+                🚗 <span class="txt-car">렌트카</span>
+            </button>
+            <button onclick="setMode('public')" id="btn-public" class="toggle-btn inactive">
+                🚆 <span class="txt-public">대중교통</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-scroll">
+        <!-- Tip Box -->
+        <div class="tip-box">
+            <h3 id="tip-title" class="tip-title">🚗 렌트카 & 주차 팁</h3>
+            <ul id="tip-list">
+                <!-- JS injected -->
+            </ul>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div id="content-area"></div>
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav>
+        <button onclick="setTab('itinerary')" id="nav-btn-sch" class="nav-btn active-car">
+            <!-- Calendar Icon SVG -->
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="txt-sch">일정</span>
+        </button>
+        <button onclick="setTab('check')" id="nav-btn-chk" class="nav-btn">
+            <!-- Check Icon SVG -->
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            <span class="txt-chk">체크</span>
+        </button>
+        <button onclick="alert('준비 중입니다!')" class="nav-btn">
+            <!-- Info Icon SVG -->
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span class="txt-info">정보</span>
+        </button>
+    </nav>
+
+</div>
+
+<script>
+    /* --- 데이터 및 로직 (순수 JS) --- */
+    
+    var appState = {
+        tab: 'itinerary',
+        day: 1,
+        mode: 'car', 
+        lang: 'ko',
+        checks: {}
+    };
+
+    var LOCALE_DATA = {
+        ko: {
+            title: "시즈오카 & 후지산", rent: "렌트카", pub: "대중교통",
+            sch: "일정", chk: "체크", info: "정보",
+            tipTitleCar: "🚗 렌트카 & 주차 팁", tipTitlePub: "🚌 뚜벅이 모드 팁",
+            tipsCar: ["13:30 이후 수령 시 48H 요금 적용!", "관광지 주차는 대부분 무료!"],
+            tipsPub: ["시내 중심 쇼핑 & 먹방 최적화", "도쿄에서 벚꽃 보려면 2월 말이 딱!"],
+            map: "지도", parking: "주차", warn: "도로 촬영 금지! 보행자 통로 이용",
+            flower: "카와즈 벚꽃 만개 시즌 예상!",
+            warn48: "13:30 이후 수령 권장 (48H 세이브)",
+            prev: "이전 날", next: "다음 날", top: "맨 위로",
+            days: ["2/19 (목)", "2/20 (금)", "2/21 (토)", "2/22 (일)", "2/23 (월)"],
+            dayTitles: ["시즈오카 도착 (09:10)", "후지산 투어", "요코하마 관광", "🌸 벚꽃 & 레트로 도쿄", "귀국 (17:00)"],
+            chkTitleCar: "🚗 드라이브 준비물", chkTitlePub: "🚌 뚜벅이 준비물"
+        },
+        ja: {
+            title: "静岡 & 富士山", rent: "レンタカー", pub: "公共交通",
+            sch: "日程", chk: "チェック", info: "情報",
+            tipTitleCar: "🚗 レンタカー & 駐車のコツ", tipTitlePub: "🚌 公共交通のコツ",
+            tipsCar: ["13:30以降受取で48H料金適用！", "観光地の駐車はほぼ無料！"],
+            tipsPub: ["市内中心部の買い物＆グルメに最適", "東京で桜を見るなら2月下旬がベスト！"],
+            map: "地図", parking: "駐車場", warn: "車道での撮影禁止！歩道を利用",
+            flower: "河津桜の満開シーズン予想！",
+            warn48: "13:30以降受取推奨 (48H節約)",
+            prev: "前日", next: "翌日", top: "トップへ",
+            days: ["2/19 (木)", "2/20 (金)", "2/21 (土)", "2/22 (日)", "2/23 (月)"],
+            dayTitles: ["静岡到着 (09:10)", "富士山ツアー", "横浜観光", "🌸 桜 & レトロ東京", "帰国 (17:00)"],
+            chkTitleCar: "🚗 ドライブ準備物", chkTitlePub: "🚌 徒歩旅行準備物"
+        }
+    };
+
+    var TRIP_EVENTS = {
+        car: [
+            [ // Day 1
+                {t:"09:10", title:{ko:"시즈오카 공항 도착", ja:"静岡空港到着"}, desc:{ko:"입국 심사 후 이동", ja:"入国審査後移動"}, i:"🏠"},
+                {t:"10:15", title:{ko:"공항버스 탑승", ja:"空港バス乗車"}, desc:{ko:"시즈오카역행 (약 50분)", ja:"静岡駅行き (約50分)"}, i:"🚌"},
+                {t:"11:30", title:{ko:"점심: 사와야카 함바그", ja:"ランチ: さわやかハンバーグ"}, desc:{ko:"세노바점 대기표 (웨이팅 활용)", ja:"セノバ店整理券 (待ち時間活用)"}, i:"🍔", loc:"Sawayaka Shizuoka Cenova"},
+                {t:"13:30", title:{ko:"🚗 렌트카 수령 (48H)", ja:"🚗 レンタカー受取 (48H)"}, desc:{ko:"점심 후 수령하여 요금 절약!", ja:"ランチ後受取で料金節約！"}, i:"🚗", warn48:true},
+                {t:"14:15", title:{ko:"📍 니혼다이라 유메 테라스", ja:"📍 日本平夢テラス"}, desc:{ko:"후지산 뷰 + 건축물 감상", ja:"富士山ビュー + 建築鑑賞"}, i:"📷", loc:"Nihondaira Yume Terrace", p:"Free"},
+                {t:"16:00", title:{ko:"미호의 송원", ja:"三保の松原"}, desc:{ko:"바다+소나무+후지산", ja:"海+松+富士山"}, i:"🌊", loc:"Miho no Matsubara", p:"Free"},
+                {t:"19:00", title:{ko:"아오바 오뎅거리", ja:"青葉おでん街"}, desc:{ko:"검은 오뎅+맥주 (저녁)", ja:"静岡おでん+ビール"}, i:"🍺", loc:"Aoba Oden Street"}
+            ],
+            [ // Day 2
+                {t:"08:30", title:{ko:"호텔 출발", ja:"ホテル出発"}, desc:{ko:"아침 맑은 공기 마시며 출발", ja:"朝の澄んだ空気で出発"}, i:"🚗"},
+                {t:"09:30", title:{ko:"📍 후지산 꿈의 대교", ja:"📍 富士山夢の大橋"}, desc:{ko:"육교 위 인생샷", ja:"歩道橋での記念撮影"}, i:"📷", loc:"Fuji Central Park", p:"Free", warn:true},
+                {t:"10:30", title:{ko:"오부치사사바", ja:"大淵笹場"}, desc:{ko:"후지산+녹차밭 뷰", ja:"富士山+茶畑の絶景"}, i:"📷", loc:"Obuchi Sasaba", p:"Free"},
+                {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, i:"💧", loc:"Shiraito Falls", p:"500¥"},
+                {t:"14:00", title:{ko:"타누키호", ja:"田貫湖"}, desc:{ko:"호수 드라이브 & 산책", ja:"湖畔ドライブ & 散策"}, i:"🌊", loc:"Lake Tanuki", p:"Free"},
+                {t:"18:00", title:{ko:"저녁: 장어덮밥", ja:"夕食: うなぎ丼"}, desc:{ko:"미시마 명물 우나기", ja:"三島名物うなぎ"}, i:"🍱"}
+            ],
+            [ // Day 3
+                {t:"09:30", title:{ko:"미시마 출발", ja:"三島出発"}, desc:{ko:"하코네 국도 1호선 드라이브", ja:"箱根国道1号線ドライブ"}, i:"🚗"},
+                {t:"10:30", title:{ko:"🌋 오와쿠다니", ja:"🌋 大涌谷"}, desc:{ko:"검은 달걀(수명 연장!)", ja:"黒たまご(寿命延長!)"}, i:"🌋", loc:"Owakudani", p:"530¥"},
+                {t:"13:00", title:{ko:"신요코하마역 반납", ja:"新横浜駅返却"}, desc:{ko:"13:30 전 반납 (48H 세이브)", ja:"13:30前返却 (48Hセーブ)"}, i:"🚩"},
+                {t:"14:00", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"만두, 탕후루 먹방", ja:"餃子, タンフル食べ歩き"}, i:"🥟", loc:"Yokohama Chinatown"},
+                {t:"15:30", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, i:"🛍️", loc:"Yokohama Red Brick Warehouse"},
+                {t:"17:00", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"도심 로프웨이 야경", ja:"都市ロープウェイ夜景"}, i:"🚠", loc:"YOKOHAMA AIR CABIN"}
+            ],
+            [ // Day 4
+                {t:"10:00", title:{ko:"⛩️ 마쓰치야마 성천", ja:"⛩️ 待乳山聖天"}, desc:{ko:"무(Daikon)가 상징인 파워스팟", ja:"大根がシンボルのパワースポット"}, i:"⛩️", loc:"Matsuchiyama Shoden"},
+                {t:"11:30", title:{ko:"🌸 구나카가와 벚꽃", ja:"🌸 旧中川の河津桜"}, desc:{ko:"진한 핑크색 카와즈 벚꽃!", ja:"濃いピンクの河津桜！"}, i:"🌸", loc:"Old Nakagawa Riverbed", flower:true},
+                {t:"13:30", title:{ko:"점심: 카메이도/아사쿠사", ja:"ランチ: 亀戸/浅草"}, desc:{ko:"교자 또는 몬자야키", ja:"餃子 or もんじゃ焼き"}, i:"🥟", loc:"Kameido Gyoza"},
+                {t:"15:00", title:{ko:"쿠라마에 카페", ja:"蔵前カフェ"}, desc:{ko:"도쿄의 브루클린", ja:"東京のブルックリン"}, i:"☕", loc:"Kuramae Station"},
+                {t:"18:00", title:{ko:"스카이트리 야경", ja:"スカイツリー夜景"}, desc:{ko:"일정 마무리 쇼핑", ja:"日程の締めくくり"}, i:"🌃", loc:"Tokyo Skytree"}
+            ],
+            [ // Day 5
+                {t:"10:00", title:{ko:"체크아웃 & 아점", ja:"チェックアウト & ブランチ"}, desc:{ko:"마지막 편의점 털기", ja:"最後のコンビニ"}, i:"🏪"},
+                {t:"12:00", title:{ko:"공항으로 이동", ja:"空港へ移動"}, desc:{ko:"도쿄OUT 13:30, 시즈오카OUT 11:30 출발", ja:"東京OUT 13:30, 静岡OUT 11:30出発"}, i:"🚆"},
+                {t:"15:00", title:{ko:"공항 도착 & 수속", ja:"空港到着 & 手続き"}, desc:{ko:"17:00 비행기", ja:"17:00 フライト"}, i:"✈️"}
+            ]
+        ],
+        public: []
+    };
+    
+    // Public Events (Simplified Copy Logic)
+    var pubEvents = JSON.parse(JSON.stringify(TRIP_EVENTS.car));
+    pubEvents[0][2] = {t:"11:30", title:{ko:"시즈오카역 & 점심", ja:"静岡駅 & ランチ"}, desc:{ko:"짐 맡기기 & 마구로동", ja:"荷物預け & マグロ丼"}, i:"🍣"};
+    pubEvents[0][3] = {t:"13:00", title:{ko:"시내 뚜벅이 관광", ja:"市内観光"}, desc:{ko:"슨푸 성 공원", ja:"駿府城公園"}, i:"🚶"};
+    pubEvents[0][4] = {t:"15:00", title:{ko:"나나야 본점", ja:"ななや本店"}, desc:{ko:"진한 말차 젤라또", ja:"濃い抹茶ジェラート"}, i:"🍦", loc:"Nanaya Shizuoka"};
+    
+    pubEvents[1] = [
+        {t:"09:00", title:{ko:"시즈오카역 → 후지노미야", ja:"静岡駅 →富士宮"}, desc:{ko:"JR 전철 이동", ja:"JR電車移動"}, i:"🚆"},
+        {t:"10:00", title:{ko:"후지산 세계유산센터", ja:"富士山世界遺産センター"}, desc:{ko:"건축물 & 뷰 감상", ja:"建築と景色鑑賞"}, i:"📷", loc:"Mt. Fuji World Heritage Centre, Shizuoka"},
+        {t:"11:30", title:{ko:"센겐 대사 & 야키소바", ja:"浅間大社 & 焼きそば"}, desc:{ko:"신사 산책 & 점심", ja:"神社散策 & ランチ"}, i:"⛩️", loc:"Fujisan Hongū Sengen Taisha"},
+        {t:"13:30", title:{ko:"시라이토 폭포 (버스)", ja:"白糸の滝 (バス)"}, desc:{ko:"버스 시간 확인 필수", ja:"バス時間要確認"}, i:"🚌", loc:"Shiraito Falls"},
+        {t:"16:30", title:{ko:"미시마로 이동", ja:"三島へ移動"}, desc:{ko:"전철 이동", ja:"電車移動"}, i:"🚆"},
+        {t:"18:00", title:{ko:"미시마 숙소 체크인", ja:"三島ホテルチェックイン"}, desc:{ko:"역 근처 호텔", ja:"駅近くのホテル"}, i:"🏨"}
+    ];
+    pubEvents[2] = [
+        {t:"10:00", title:{ko:"미시마 → 신요코하마", ja:"三島 → 新横浜"}, desc:{ko:"신칸센 (약 30분)", ja:"新幹線 (約30分)"}, i:"🚄"},
+        {t:"11:00", title:{ko:"도착 & 짐 보관", ja:"到着 & 荷物預け"}, desc:{ko:"코인락커 이용", ja:"コインロッカー利用"}, i:"🛅"},
+        {t:"12:00", title:{ko:"컵라면 박물관", ja:"カップヌードルミュージアム"}, desc:{ko:"나만의 컵라면 만들기", ja:"マイカップヌードル作り"}, i:"🍜", loc:"CUPNOODLES MUSEUM YOKOHAMA"},
+        TRIP_EVENTS.car[2][3], TRIP_EVENTS.car[2][4], TRIP_EVENTS.car[2][5]
+    ];
+    TRIP_EVENTS.public = pubEvents;
+
+    // --- 렌더링 함수 ---
+    function render() {
+        var txt = LOCALE_DATA[appState.lang];
+        
+        // 1. 텍스트 업데이트
+        document.getElementById('lang-text').innerText = appState.lang === 'ko' ? '日本語' : '한국어';
+        document.getElementById('app-title').innerText = txt.title;
+        document.querySelector('.txt-car').innerText = txt.rent;
+        document.querySelector('.txt-public').innerText = txt.pub;
+        document.querySelector('.txt-sch').innerText = txt.sch;
+        document.querySelector('.txt-chk').innerText = txt.chk;
+        document.querySelector('.txt-info').innerText = txt.info;
+
+        // 2. 모드 스타일 (헤더, 버튼)
+        var header = document.getElementById('main-header');
+        var btnCar = document.getElementById('btn-car');
+        var btnPub = document.getElementById('btn-public');
+        var navSch = document.getElementById('nav-btn-sch');
+        var navChk = document.getElementById('nav-btn-chk');
+
+        if (appState.mode === 'car') {
+            header.className = 'bg-gradient-car';
+            btnCar.className = 'toggle-btn active text-car';
+            btnPub.className = 'toggle-btn inactive';
+            if (appState.tab === 'itinerary') {
+                navSch.className = 'nav-btn active-car';
+                navChk.className = 'nav-btn';
+            } else {
+                navSch.className = 'nav-btn';
+                navChk.className = 'nav-btn active-car';
+            }
+        } else {
+            header.className = 'bg-gradient-pub';
+            btnCar.className = 'toggle-btn inactive';
+            btnPub.className = 'toggle-btn active text-pub';
+            if (appState.tab === 'itinerary') {
+                navSch.className = 'nav-btn active-pub';
+                navChk.className = 'nav-btn';
+            } else {
+                navSch.className = 'nav-btn';
+                navChk.className = 'nav-btn active-pub';
+            }
+        }
+
+        // 3. 컨텐츠 영역
+        var content = document.getElementById('content-area');
+        content.innerHTML = ''; // 초기화
+
+        // 팁 박스
+        document.getElementById('tip-title').innerText = appState.mode === 'car' ? txt.tipTitleCar : txt.tipTitlePub;
+        var tips = appState.mode === 'car' ? txt.tipsCar : txt.tipsPub;
+        var tipHtml = '';
+        var dotColor = appState.mode === 'car' ? 'text-car' : 'text-pub';
+        tips.forEach(function(t) {
+            tipHtml += '<li class="tip-item"><span style="font-weight:bold" class="'+dotColor+'">✔</span> ' + t + '</li>';
+        });
+        document.getElementById('tip-list').innerHTML = tipHtml;
+
+        if (appState.tab === 'itinerary') {
+            // [일정 탭]
+            
+            // Day 탭 버튼
+            var daysHtml = '<div class="day-tabs">';
+            txt.days.forEach(function(d, i) {
+                var isActive = (i + 1) === appState.day;
+                var activeClass = appState.mode === 'car' ? 'active-car' : 'active-pub';
+                var cls = isActive ? 'day-btn ' + activeClass : 'day-btn inactive';
+                daysHtml += '<button onclick="setDay('+(i+1)+')" class="'+cls+'">Day '+(i+1)+'</button>';
+            });
+            daysHtml += '</div>';
+
+            // 카드 내용
+            var dayEvents = TRIP_EVENTS[appState.mode][appState.day - 1];
+            var eventsHtml = '<div class="card">';
+            // 카드 헤더
+            eventsHtml += '<div class="card-header"><div>';
+            eventsHtml += '<span class="date-text '+ (appState.mode==='car'?'text-car':'text-pub') +'">'+ txt.days[appState.day-1] +'</span>';
+            eventsHtml += '<div class="title-text">'+ txt.dayTitles[appState.day-1] +'</div>';
+            eventsHtml += '</div></div>';
+            
+            // 이벤트 리스트
+            eventsHtml += '<div>';
+            dayEvents.forEach(function(e) {
+                var mapBtn = e.loc ? '<button onclick="openMap(\''+e.loc+'\')" class="btn-map '+(appState.mode==='car'?'btn-map-car':'btn-map-pub')+'">📍 '+txt.map+'</button>' : '';
+                
+                // 뱃지 생성
+                var badges = '';
+                if(e.p) badges += '<span class="badge badge-park">🅿️ ' + (e.p==='Free'?txt.parking+': 0¥':e.p) + '</span>';
+                if(e.warn) badges += '<div class="badge badge-warn">⚠️ ' + txt.warn + '</div>';
+                if(e.flower) badges += '<div class="badge badge-flower">🌸 ' + txt.flower + '</div>';
+                if(e.warn48) badges += '<div class="badge badge-time">⏰ ' + txt.warn48 + '</div>';
+
+                eventsHtml += '<div class="event-item">';
+                eventsHtml += '<div class="icon-box icon-'+ (e.iconName || 'car') +'">'+e.icon+'</div>';
+                eventsHtml += '<div class="event-content">';
+                eventsHtml += '<div style="display:flex; justify-content:space-between; align-items:center;">';
+                eventsHtml += '<span class="time-badge">'+e.t+'</span>' + mapBtn;
+                eventsHtml += '</div>';
+                eventsHtml += '<div class="event-title">'+ e.title[appState.lang] +'</div>';
+                eventsHtml += '<div class="event-desc">'+ e.desc[appState.lang] +'</div>';
+                eventsHtml += badges;
+                eventsHtml += '</div></div>';
+            });
+            eventsHtml += '</div>'; // end event list
+
+            // 하단 컨트롤 (이전/다음)
+            eventsHtml += '<div class="nav-controls">';
+            if (appState.day > 1) {
+                eventsHtml += '<button onclick="setDay('+(appState.day-1)+')" class="nav-control-btn">◀ '+txt.prev+'</button>';
+            } else { eventsHtml += '<div></div>'; }
+            
+            eventsHtml += '<button onclick="scrollToTop()" class="nav-control-btn btn-top">⬆ '+txt.top+'</button>';
+            
+            if (appState.day < 5) {
+                eventsHtml += '<button onclick="setDay('+(appState.day+1)+')" class="nav-control-btn">'+txt.next+' ▶</button>';
+            } else { eventsHtml += '<div></div>'; }
+            eventsHtml += '</div>'; // end nav controls
+
+            eventsHtml += '</div>'; // end card
+            
+            content.innerHTML = daysHtml + eventsHtml;
+
+        } else {
+            // [체크리스트 탭]
+            var chkTitle = appState.mode === 'car' ? txt.chkTitleCar : txt.chkTitlePub;
+            var chkList = [
+                {id:"c1", ko:"여권 & 항공권", ja:"パスポート & 航空券"},
+                {id:"c2", ko:"국제운전면허증 (필수)", ja:"国際運転免許証 (必須)", mode:'car'},
+                {id:"c3", ko:"한국 면허증 (렌트 시 요구)", ja:"韓国の免許証", mode:'car'},
+                {id:"c4", ko:"Suica (애플페이/현물)", ja:"Suica (Apple Pay/現物)"},
+                {id:"c5", ko:"110v 돼지코 어댑터", ja:"110v 電源アダプター"},
+                {id:"c6", ko:"보조배터리", ja:"モバイルバッテリー"},
+                {id:"c7", ko:"동전 지갑 (필수)", ja:"小銭入れ (必須)"},
+                {id:"c8", ko:"주차비용 (현금 1000엔권)", ja:"駐車料金 (現金)", mode:'car'},
+                {id:"c9", ko:"편한 운동화", ja:"歩きやすい靴"},
+                {id:"c10", ko:"버스 시간표 캡처", ja:"バス時刻表スクショ", mode:'pub'}
+            ];
+
+            var listHtml = '<div class="card"><h2 style="font-size:1.25rem; font-weight:800; margin-bottom:1rem; color:#1f2937;">'+chkTitle+'</h2>';
+            
+            chkList.forEach(function(item) {
+                if (item.mode && item.mode !== appState.mode) return; // 모드 필터링
+                var isChecked = appState.checks[item.id];
+                var boxClass = isChecked ? (appState.mode==='car'?'check-box-car':'check-box-pub') : '';
+                
+                listHtml += '<div onclick="toggleCheck(\''+item.id+'\')" class="check-item '+(isChecked?'checked':'')+'">';
+                listHtml += '<div class="check-box '+boxClass+'">'+(isChecked?'✔':'')+'</div>';
+                listHtml += '<span>'+ item[appState.lang] +'</span>';
+                listHtml += '</div>';
+            });
+            listHtml += '</div>';
+            content.innerHTML = listHtml;
+        }
+    }
+
+    // --- 전역 함수 ---
+    window.toggleLang = function() { appState.lang = (appState.lang === 'ko' ? 'ja' : 'ko'); render(); };
+    window.setMode = function(m) { appState.mode = m; render(); };
+    window.setTab = function(t) { appState.tab = t; render(); };
+    window.setDay = function(d) { appState.day = d; render(); scrollToTop(); };
+    window.openMap = function(q) { window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q), '_blank'); };
+    window.toggleCheck = function(id) { appState.checks[id] = !appState.checks[id]; render(); };
+    window.scrollToTop = function() { document.getElementById('main-scroll').scrollTo({ top: 0, behavior: 'smooth' }); };
+
+    // 초기 실행
+    render();
+
+</script>
+</body>
+</html>
