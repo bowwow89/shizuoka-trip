@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>시즈오카 여행 가이드</title>
+<title>시즈오카 여행 가이드 V17</title>
 <style>
     /* --- 1. 기본 설정 (Reset) --- */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -62,11 +62,18 @@
     .icon-food { background-color: #ffedd5; color: #ea580c; }
     .icon-camera { background-color: #fce7f3; color: #db2777; }
     .icon-cloud { background-color: #cffafe; color: #0891b2; }
+    .icon-bed { background-color: #f3e8ff; color: #9333ea; }
+    .icon-shop { background-color: #fef3c7; color: #d97706; }
+    .icon-map { background-color: #fee2e2; color: #dc2626; }
+    .icon-flower { background-color: #fdf2f8; color: #db2777; }
+    .icon-bus { background-color: #dcfce7; color: #16a34a; }
+    .icon-train { background-color: #ccfbf1; color: #0d9488; }
+    .icon-beer { background-color: #fef9c3; color: #ca8a04; }
     
     .event-content { flex: 1; padding-top: 0.25rem; }
     .time-badge { font-size: 0.75rem; font-weight: bold; color: #6b7280; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px;}
     .event-title { font-size: 1rem; font-weight: bold; color: #1f2937; margin-bottom: 0.25rem; }
-    .event-desc { font-size: 0.875rem; color: #6b7280; line-height: 1.4; }
+    .event-desc { font-size: 0.875rem; color: #6b7280; line-height: 1.4; white-space: pre-wrap; }
     
     /* 뱃지들 */
     .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; padding: 4px 8px; border-radius: 6px; margin-top: 0.5rem; margin-right: 4px; }
@@ -176,7 +183,7 @@
             sch: "일정", chk: "체크", info: "정보",
             tipTitleCar: "🚗 렌트카 & 주차 팁", tipTitlePub: "🚌 뚜벅이 모드 팁",
             tipsCar: ["13:30 이후 수령 시 48H 요금 적용!", "관광지 주차는 대부분 무료!"],
-            tipsPub: ["시내 중심 쇼핑 & 먹방 최적화", "도쿄에서 벚꽃 보려면 2월 말이 딱!"],
+            tipsPub: ["시내 중심 쇼핑 & 먹방 최적화", "이동 시 '구글 맵' 더블 체크 필수!"],
             map: "지도", parking: "주차", warn: "도로 촬영 금지! 보행자 통로 이용",
             flower: "카와즈 벚꽃 만개 시즌 예상!",
             warn48: "13:30 이후 수령 권장 (48H 세이브)",
@@ -190,7 +197,7 @@
             sch: "日程", chk: "チェック", info: "情報",
             tipTitleCar: "🚗 レンタカー & 駐車のコツ", tipTitlePub: "🚌 公共交通のコツ",
             tipsCar: ["13:30以降受取で48H料金適用！", "観光地の駐車はほぼ無料！"],
-            tipsPub: ["市内中心部の買い物＆グルメに最適", "東京で桜を見るなら2月下旬がベスト！"],
+            tipsPub: ["市内中心部の買い物＆グルメに最適", "移動時はGoogleマップを確認！"],
             map: "地図", parking: "駐車場", warn: "車道での撮影禁止！歩道を利用",
             flower: "河津桜の満開シーズン予想！",
             warn48: "13:30以降受取推奨 (48H節約)",
@@ -204,66 +211,80 @@
     var TRIP_EVENTS = {
         car: [
             [ // Day 1
-                {t:"09:10", title:{ko:"시즈오카 공항 도착", ja:"静岡空港到着"}, desc:{ko:"입국 심사 후 이동", ja:"入国審査後移動"}, i:"🏠"},
-                {t:"10:15", title:{ko:"공항버스 탑승", ja:"空港バス乗車"}, desc:{ko:"시즈오카역행 (약 50분)", ja:"静岡駅行き (約50分)"}, i:"🚌"},
-                {t:"11:30", title:{ko:"점심: 사와야카 함바그", ja:"ランチ: さわやかハンバーグ"}, desc:{ko:"세노바점 대기표 (웨이팅 활용)", ja:"セノバ店整理券 (待ち時間活用)"}, i:"🍔", loc:"Sawayaka Shizuoka Cenova"},
-                {t:"13:30", title:{ko:"🚗 렌트카 수령 (48H)", ja:"🚗 レンタカー受取 (48H)"}, desc:{ko:"점심 후 수령하여 요금 절약!", ja:"ランチ後受取で料金節約！"}, i:"🚗", warn48:true},
-                {t:"14:15", title:{ko:"📍 니혼다이라 유메 테라스", ja:"📍 日本平夢テラス"}, desc:{ko:"후지산 뷰 + 건축물 감상", ja:"富士山ビュー + 建築鑑賞"}, i:"📷", loc:"Nihondaira Yume Terrace", p:"Free"},
-                {t:"16:00", title:{ko:"미호의 송원", ja:"三保の松原"}, desc:{ko:"바다+소나무+후지산", ja:"海+松+富士山"}, i:"🌊", loc:"Miho no Matsubara", p:"Free"},
-                {t:"19:00", title:{ko:"아오바 오뎅거리", ja:"青葉おでん街"}, desc:{ko:"검은 오뎅+맥주 (저녁)", ja:"静岡おでん+ビール"}, i:"🍺", loc:"Aoba Oden Street"}
+                {t:"09:10", title:{ko:"시즈오카 공항 도착", ja:"静岡空港到着"}, desc:{ko:"입국 심사 후 이동", ja:"入国審査後移動"}, emoji:"🏠", type:"fly"},
+                {t:"10:15", title:{ko:"공항버스 탑승", ja:"空港バス乗車"}, desc:{ko:"시즈오카역행 (약 50분)", ja:"静岡駅行き (約50分)"}, emoji:"🚌", type:"bus"},
+                {t:"11:30", title:{ko:"점심: 사와야카 함바그", ja:"ランチ: さわやかハンバーグ"}, desc:{ko:"세노바점 대기표 (웨이팅 활용)", ja:"セノバ店整理券 (待ち時間活用)"}, emoji:"🍔", type:"food", loc:"Sawayaka Shizuoka Cenova"},
+                {t:"13:30", title:{ko:"🚗 렌트카 수령 (48H)", ja:"🚗 レンタカー受取 (48H)"}, desc:{ko:"점심 후 수령하여 요금 절약!", ja:"ランチ後受取で料金節約！"}, emoji:"🚗", type:"car", warn48:true},
+                {t:"14:15", title:{ko:"📍 니혼다이라 유메 테라스", ja:"📍 日本平夢テラス"}, desc:{ko:"후지산 뷰 + 건축물 감상", ja:"富士山ビュー + 建築鑑賞"}, emoji:"📷", type:"camera", loc:"Nihondaira Yume Terrace", p:"Free"},
+                {t:"16:00", title:{ko:"미호의 송원", ja:"三保の松原"}, desc:{ko:"바다+소나무+후지산", ja:"海+松+富士山"}, emoji:"🌊", type:"water", loc:"Miho no Matsubara", p:"Free"},
+                {t:"19:00", title:{ko:"아오바 오뎅거리", ja:"青葉おでん街"}, desc:{ko:"검은 오뎅+맥주 (저녁)", ja:"静岡おでん+ビール"}, emoji:"🍺", type:"food", loc:"Aoba Oden Street"}
             ],
             [ // Day 2
-                {t:"08:30", title:{ko:"호텔 출발", ja:"ホテル出発"}, desc:{ko:"아침 맑은 공기 마시며 출발", ja:"朝の澄んだ空気で出発"}, i:"🚗"},
-                {t:"09:30", title:{ko:"📍 후지산 꿈의 대교", ja:"📍 富士山夢の大橋"}, desc:{ko:"육교 위 인생샷", ja:"歩道橋での記念撮影"}, i:"📷", loc:"Fuji Central Park", p:"Free", warn:true},
-                {t:"10:30", title:{ko:"오부치사사바", ja:"大淵笹場"}, desc:{ko:"후지산+녹차밭 뷰", ja:"富士山+茶畑の絶景"}, i:"📷", loc:"Obuchi Sasaba", p:"Free"},
-                {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, i:"💧", loc:"Shiraito Falls", p:"500¥"},
-                {t:"14:00", title:{ko:"타누키호", ja:"田貫湖"}, desc:{ko:"호수 드라이브 & 산책", ja:"湖畔ドライブ & 散策"}, i:"🌊", loc:"Lake Tanuki", p:"Free"},
-                {t:"18:00", title:{ko:"저녁: 장어덮밥", ja:"夕食: うなぎ丼"}, desc:{ko:"미시마 명물 우나기", ja:"三島名物うなぎ"}, i:"🍱"}
+                {t:"08:30", title:{ko:"호텔 출발", ja:"ホテル出発"}, desc:{ko:"아침 맑은 공기 마시며 출발", ja:"朝の澄んだ空気で出発"}, emoji:"🚗", type:"car"},
+                {t:"09:30", title:{ko:"📍 후지산 꿈의 대교", ja:"📍 富士山夢の大橋"}, desc:{ko:"육교 위 인생샷", ja:"歩道橋での記念撮影"}, emoji:"📷", type:"camera", loc:"Fuji Central Park", p:"Free", warn:true},
+                {t:"10:30", title:{ko:"오부치사사바", ja:"大淵笹場"}, desc:{ko:"후지산+녹차밭 뷰", ja:"富士山+茶畑の絶景"}, emoji:"📷", type:"camera", loc:"Obuchi Sasaba", p:"Free"},
+                {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, emoji:"💧", type:"water", loc:"Shiraito Falls", p:"500¥"},
+                {t:"14:00", title:{ko:"타누키호", ja:"田貫湖"}, desc:{ko:"호수 드라이브 & 산책", ja:"湖畔ドライブ & 散策"}, emoji:"🌊", type:"water", loc:"Lake Tanuki", p:"Free"},
+                {t:"18:00", title:{ko:"저녁: 장어덮밥", ja:"夕食: うなぎ丼"}, desc:{ko:"미시마 명물 우나기\n(추천: 사쿠라야, 우나요시)", ja:"三島名物うなぎ\n(おすすめ: 桜家, うなよし)"}, emoji:"🍱", type:"food", loc:"Sakuraya Mishima"},
+                {t:"20:00", title:{ko:"미시마 이자카야 탐방", ja:"三島居酒屋巡り"}, desc:{ko:"미시마 히로코지 역 근처\n로컬 이자카야 즐기기", ja:"三島広小路駅近く\nローカル居酒屋を楽しむ"}, emoji:"🏮", type:"beer", loc:"Mishima Hirokoji Station"}
             ],
             [ // Day 3
-                {t:"09:30", title:{ko:"미시마 출발", ja:"三島出発"}, desc:{ko:"하코네 국도 1호선 드라이브", ja:"箱根国道1号線ドライブ"}, i:"🚗"},
-                {t:"10:30", title:{ko:"🌋 오와쿠다니", ja:"🌋 大涌谷"}, desc:{ko:"검은 달걀(수명 연장!)", ja:"黒たまご(寿命延長!)"}, i:"🌋", loc:"Owakudani", p:"530¥"},
-                {t:"13:00", title:{ko:"신요코하마역 반납", ja:"新横浜駅返却"}, desc:{ko:"13:30 전 반납 (48H 세이브)", ja:"13:30前返却 (48Hセーブ)"}, i:"🚩"},
-                {t:"14:00", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"만두, 탕후루 먹방", ja:"餃子, タンフル食べ歩き"}, i:"🥟", loc:"Yokohama Chinatown"},
-                {t:"15:30", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, i:"🛍️", loc:"Yokohama Red Brick Warehouse"},
-                {t:"17:00", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"도심 로프웨이 야경", ja:"都市ロープウェイ夜景"}, i:"🚠", loc:"YOKOHAMA AIR CABIN"}
+                {t:"09:30", title:{ko:"미시마 출발", ja:"三島出発"}, desc:{ko:"하코네 국도 1호선 드라이브", ja:"箱根国道1号線ドライブ"}, emoji:"🚗", type:"car"},
+                {t:"10:30", title:{ko:"🌋 오와쿠다니", ja:"🌋 大涌谷"}, desc:{ko:"검은 달걀(수명 연장!)", ja:"黒たまご(寿命延長!)"}, emoji:"🌋", type:"map", loc:"Owakudani", p:"530¥"},
+                {t:"13:00", title:{ko:"신요코하마역 반납", ja:"新横浜駅返却"}, desc:{ko:"13:30 전 반납 (48H 세이브)\n짐은 코인락커 보관", ja:"13:30前返却 (48Hセーブ)\n荷物はコインロッカーへ"}, emoji:"🚩", type:"map"},
+                {t:"14:00", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"만두, 탕후루 먹방", ja:"餃子, タンフル食べ歩き"}, emoji:"🥟", type:"food", loc:"Yokohama Chinatown"},
+                {t:"15:30", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, emoji:"🛍️", type:"shop", loc:"Yokohama Red Brick Warehouse"},
+                {t:"17:00", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"사쿠라기초역까지 공중 산책\n(야경 감상)", ja:"桜木町駅まで空中散歩\n(夜景鑑賞)"}, emoji:"🚠", type:"fly", loc:"YOKOHAMA AIR CABIN"},
+                {t:"18:00", title:{ko:"🎡 코스모 월드 & 저녁", ja:"🎡 コスモワールド & 夕食"}, desc:{ko:"대관람차 야경 감상\n미나토미라이 근처 저녁", ja:"大観覧車夜景鑑賞\nみなとみらい近くで夕食"}, emoji:"🎡", type:"camera", loc:"Yokohama Cosmo World"},
+                {t:"20:00", title:{ko:"도쿄로 이동 & 체크인", ja:"東京へ移動 & チェックイン"}, desc:{ko:"전철로 도쿄(신주쿠/우에노) 이동\n짐 풀고 가볍게 한잔!", ja:"電車で東京(新宿/上野)へ移動\n荷物を置いて軽く一杯！"}, emoji:"🚆", type:"train"}
             ],
             [ // Day 4
-                {t:"10:00", title:{ko:"⛩️ 마쓰치야마 성천", ja:"⛩️ 待乳山聖天"}, desc:{ko:"무(Daikon)가 상징인 파워스팟", ja:"大根がシンボルのパワースポット"}, i:"⛩️", loc:"Matsuchiyama Shoden"},
-                {t:"11:30", title:{ko:"🌸 구나카가와 벚꽃", ja:"🌸 旧中川の河津桜"}, desc:{ko:"진한 핑크색 카와즈 벚꽃!", ja:"濃いピンクの河津桜！"}, i:"🌸", loc:"Old Nakagawa Riverbed", flower:true},
-                {t:"13:30", title:{ko:"점심: 카메이도/아사쿠사", ja:"ランチ: 亀戸/浅草"}, desc:{ko:"교자 또는 몬자야키", ja:"餃子 or もんじゃ焼き"}, i:"🥟", loc:"Kameido Gyoza"},
-                {t:"15:00", title:{ko:"쿠라마에 카페", ja:"蔵前カフェ"}, desc:{ko:"도쿄의 브루클린", ja:"東京のブルックリン"}, i:"☕", loc:"Kuramae Station"},
-                {t:"18:00", title:{ko:"스카이트리 야경", ja:"スカイツリー夜景"}, desc:{ko:"일정 마무리 쇼핑", ja:"日程の締めくくり"}, i:"🌃", loc:"Tokyo Skytree"}
+                {t:"10:00", title:{ko:"⛩️ 마쓰치야마 성천", ja:"⛩️ 待乳山聖天"}, desc:{ko:"모노레일 타고 참배. 무(Daikon)가 상징", ja:"モノレールで参拝。大根がシンボル"}, emoji:"⛩️", type:"map", loc:"Matsuchiyama Shoden"},
+                {t:"11:30", title:{ko:"🌸 구나카가와 벚꽃", ja:"🌸 旧中川の河津桜"}, desc:{ko:"진한 핑크색 카와즈 벚꽃!", ja:"濃いピンクの河津桜！"}, emoji:"🌸", type:"flower", loc:"Old Nakagawa Riverbed", flower:true},
+                {t:"13:30", title:{ko:"점심: 카메이도/아사쿠사", ja:"ランチ: 亀戸/浅草"}, desc:{ko:"교자 또는 몬자야키", ja:"餃子 or もんじゃ焼き"}, emoji:"🥟", type:"food", loc:"Kameido Gyoza"},
+                {t:"15:00", title:{ko:"쿠라마에 카페", ja:"蔵前カフェ"}, desc:{ko:"도쿄의 브루클린", ja:"東京のブルックリン"}, emoji:"☕", type:"food", loc:"Kuramae Station"},
+                {t:"18:00", title:{ko:"스카이트리 야경", ja:"スカイツリー夜景"}, desc:{ko:"일정 마무리 쇼핑", ja:"日程の締めくくり"}, emoji:"🌃", type:"camera", loc:"Tokyo Skytree"}
             ],
             [ // Day 5
-                {t:"10:00", title:{ko:"체크아웃 & 아점", ja:"チェックアウト & ブランチ"}, desc:{ko:"마지막 편의점 털기", ja:"最後のコンビニ"}, i:"🏪"},
-                {t:"12:00", title:{ko:"공항으로 이동", ja:"空港へ移動"}, desc:{ko:"도쿄OUT 13:30, 시즈오카OUT 11:30 출발", ja:"東京OUT 13:30, 静岡OUT 11:30出発"}, i:"🚆"},
-                {t:"15:00", title:{ko:"공항 도착 & 수속", ja:"空港到着 & 手続き"}, desc:{ko:"17:00 비행기", ja:"17:00 フライト"}, i:"✈️"}
+                {t:"10:00", title:{ko:"체크아웃 & 아점", ja:"チェックアウト & ブランチ"}, desc:{ko:"마지막 편의점 털기", ja:"最後のコンビニ"}, emoji:"🏪", type:"shop"},
+                {t:"12:00", title:{ko:"공항으로 이동", ja:"空港へ移動"}, desc:{ko:"도쿄OUT 13:30, 시즈오카OUT 11:30 출발", ja:"東京OUT 13:30, 静岡OUT 11:30出発"}, emoji:"🚆", type:"train"},
+                {t:"15:00", title:{ko:"공항 도착 & 수속", ja:"空港到着 & 手続き"}, desc:{ko:"17:00 비행기", ja:"17:00 フライト"}, emoji:"✈️", type:"fly"}
             ]
         ],
         public: []
     };
     
-    // Public Events (Simplified Copy Logic)
+    // Public Data (Manual Detail Setup)
     var pubEvents = JSON.parse(JSON.stringify(TRIP_EVENTS.car));
-    pubEvents[0][2] = {t:"11:30", title:{ko:"시즈오카역 & 점심", ja:"静岡駅 & ランチ"}, desc:{ko:"짐 맡기기 & 마구로동", ja:"荷物預け & マグロ丼"}, i:"🍣"};
-    pubEvents[0][3] = {t:"13:00", title:{ko:"시내 뚜벅이 관광", ja:"市内観光"}, desc:{ko:"슨푸 성 공원", ja:"駿府城公園"}, i:"🚶"};
-    pubEvents[0][4] = {t:"15:00", title:{ko:"나나야 본점", ja:"ななや本店"}, desc:{ko:"진한 말차 젤라또", ja:"濃い抹茶ジェラート"}, i:"🍦", loc:"Nanaya Shizuoka"};
     
+    // Day 1 (Public)
+    pubEvents[0][2] = {t:"11:30", title:{ko:"시즈오카역 & 점심", ja:"静岡駅 & ランチ"}, desc:{ko:"짐 맡기기 & 마구로동", ja:"荷物預け & マグロ丼"}, emoji:"🍣", type:"food"};
+    pubEvents[0][3] = {t:"13:00", title:{ko:"시내 뚜벅이 관광", ja:"市内観光"}, desc:{ko:"슨푸 성 공원", ja:"駿府城公園"}, emoji:"🚶", type:"camera"};
+    pubEvents[0][4] = {t:"15:00", title:{ko:"나나야 본점", ja:"ななや本店"}, desc:{ko:"진한 말차 젤라또", ja:"濃い抹茶ジェラート"}, emoji:"🍦", type:"food", loc:"Nanaya Shizuoka"};
+    
+    // Day 2 (Public) - Detailed Transport
     pubEvents[1] = [
-        {t:"09:00", title:{ko:"시즈오카역 → 후지노미야", ja:"静岡駅 →富士宮"}, desc:{ko:"JR 전철 이동", ja:"JR電車移動"}, i:"🚆"},
-        {t:"10:00", title:{ko:"후지산 세계유산센터", ja:"富士山世界遺産センター"}, desc:{ko:"건축물 & 뷰 감상", ja:"建築と景色鑑賞"}, i:"📷", loc:"Mt. Fuji World Heritage Centre, Shizuoka"},
-        {t:"11:30", title:{ko:"센겐 대사 & 야키소바", ja:"浅間大社 & 焼きそば"}, desc:{ko:"신사 산책 & 점심", ja:"神社散策 & ランチ"}, i:"⛩️", loc:"Fujisan Hongū Sengen Taisha"},
-        {t:"13:30", title:{ko:"시라이토 폭포 (버스)", ja:"白糸の滝 (バス)"}, desc:{ko:"버스 시간 확인 필수", ja:"バス時間要確認"}, i:"🚌", loc:"Shiraito Falls"},
-        {t:"16:30", title:{ko:"미시마로 이동", ja:"三島へ移動"}, desc:{ko:"전철 이동", ja:"電車移動"}, i:"🚆"},
-        {t:"18:00", title:{ko:"미시마 숙소 체크인", ja:"三島ホテルチェックイン"}, desc:{ko:"역 근처 호텔", ja:"駅近くのホテル"}, i:"🏨"}
+        {t:"09:00", title:{ko:"후지노미야로 이동", ja:"富士宮へ移動"}, desc:{ko:"시즈오카역(도카이도선) → 후지역 환승\n→ 미노부선 후지노미야역 하차 (약 50분)", ja:"静岡駅(東海道線) → 富士駅乗換\n→ 身延線富士宮駅下車 (約50分)"}, emoji:"🚆", type:"train"},
+        {t:"10:00", title:{ko:"후지산 세계유산센터", ja:"富士山世界遺産センター"}, desc:{ko:"역 바로 앞. 도보 이동", ja:"駅の目の前。徒歩移動"}, emoji:"📷", type:"camera", loc:"Mt. Fuji World Heritage Centre, Shizuoka"},
+        {t:"11:30", title:{ko:"센겐 대사 & 점심", ja:"浅間大社 & ランチ"}, desc:{ko:"신사 산책 후 야키소바 거리 점심", ja:"神社散策後、焼きそば通りでランチ"}, emoji:"⛩️", type:"map", loc:"Fujisan Hongū Sengen Taisha"},
+        {t:"13:30", title:{ko:"시라이토 폭포 이동", ja:"白糸の滝へ移動"}, desc:{ko:"후지노미야역 2번 승강장 버스 탑승\n→ 시라이토노타키 하차 (약 30분)", ja:"富士宮駅2番乗り場からバス乗車\n→ 白糸の滝下車 (約30分)"}, emoji:"🚌", type:"bus", loc:"Shiraito Falls"},
+        {t:"16:00", title:{ko:"미시마로 이동", ja:"三島へ移動"}, desc:{ko:"버스 타고 역 복귀 → 전철 미시마역 이동", ja:"バスで駅へ → 電車で三島駅へ移動"}, emoji:"🚆", type:"train"},
+        {t:"18:00", title:{ko:"미시마 숙소 체크인", ja:"三島ホテルチェックイン"}, desc:{ko:"역 근처 호텔", ja:"駅近くのホテル"}, emoji:"🏨", type:"bed"},
+        {t:"19:00", title:{ko:"저녁 & 술 한잔", ja:"夕食 & 一杯"}, desc:{ko:"미시마역 남쪽 '히로코지' 근처\n이자카야 거리 추천!", ja:"三島駅南口「広小路」近く\n居酒屋通りおすすめ！"}, emoji:"🍺", type:"beer", loc:"Mishima Hirokoji Station"}
     ];
+
+    // Day 3 (Public) - Detailed Transport
     pubEvents[2] = [
-        {t:"10:00", title:{ko:"미시마 → 신요코하마", ja:"三島 → 新横浜"}, desc:{ko:"신칸센 (약 30분)", ja:"新幹線 (約30分)"}, i:"🚄"},
-        {t:"11:00", title:{ko:"도착 & 짐 보관", ja:"到着 & 荷物預け"}, desc:{ko:"코인락커 이용", ja:"コインロッカー利用"}, i:"🛅"},
-        {t:"12:00", title:{ko:"컵라면 박물관", ja:"カップヌードルミュージアム"}, desc:{ko:"나만의 컵라면 만들기", ja:"マイカップヌードル作り"}, i:"🍜", loc:"CUPNOODLES MUSEUM YOKOHAMA"},
-        TRIP_EVENTS.car[2][3], TRIP_EVENTS.car[2][4], TRIP_EVENTS.car[2][5]
+        {t:"10:00", title:{ko:"신요코하마로 이동", ja:"新横浜へ移動"}, desc:{ko:"미시마역 신칸센(히카리/고다마) 탑승\n→ 신요코하마역 하차 (약 30분)", ja:"三島駅新幹線(ひかり/こだま)乗車\n→ 新横浜駅下車 (約30分)"}, emoji:"🚄", type:"train"},
+        {t:"11:00", title:{ko:"짐 보관 & 이동", ja:"荷物預け & 移動"}, desc:{ko:"역 코인락커 보관\nJR 요코하마선 → 사쿠라기초역 이동", ja:"駅ロッカーへ保管\nJR横浜線 → 桜木町駅へ移動"}, emoji:"🛅", type:"shop"},
+        {t:"12:00", title:{ko:"컵라면 박물관", ja:"カップヌードルミュージアム"}, desc:{ko:"나만의 컵라면 만들기", ja:"マイカップヌードル作り"}, emoji:"🍜", type:"food", loc:"CUPNOODLES MUSEUM YOKOHAMA"},
+        TRIP_EVENTS.car[2][3], // China Town
+        TRIP_EVENTS.car[2][4], // Red Brick
+        TRIP_EVENTS.car[2][5], // Air Cabin
+        TRIP_EVENTS.car[2][6], // Cosmo World
+        {t:"20:00", title:{ko:"도쿄 이동 & 체크인", ja:"東京移動 & チェックイン"}, desc:{ko:"짐 찾고 전철로 도쿄 이동\n숙소 근처 이자카야!", ja:"荷物を取り電車で東京へ\n宿近くの居酒屋！"}, emoji:"🚆", type:"train"}
     ];
+    
     TRIP_EVENTS.public = pubEvents;
 
     // --- 렌더링 함수 ---
@@ -279,7 +300,7 @@
         document.querySelector('.txt-chk').innerText = txt.chk;
         document.querySelector('.txt-info').innerText = txt.info;
 
-        // 2. 모드 스타일 (헤더, 버튼)
+        // 2. 모드 스타일
         var header = document.getElementById('main-header');
         var btnCar = document.getElementById('btn-car');
         var btnPub = document.getElementById('btn-public');
@@ -290,29 +311,19 @@
             header.className = 'bg-gradient-car';
             btnCar.className = 'toggle-btn active text-car';
             btnPub.className = 'toggle-btn inactive';
-            if (appState.tab === 'itinerary') {
-                navSch.className = 'nav-btn active-car';
-                navChk.className = 'nav-btn';
-            } else {
-                navSch.className = 'nav-btn';
-                navChk.className = 'nav-btn active-car';
-            }
+            navSch.className = appState.tab === 'itinerary' ? 'nav-btn active-car' : 'nav-btn';
+            navChk.className = appState.tab === 'check' ? 'nav-btn active-car' : 'nav-btn';
         } else {
             header.className = 'bg-gradient-pub';
             btnCar.className = 'toggle-btn inactive';
             btnPub.className = 'toggle-btn active text-pub';
-            if (appState.tab === 'itinerary') {
-                navSch.className = 'nav-btn active-pub';
-                navChk.className = 'nav-btn';
-            } else {
-                navSch.className = 'nav-btn';
-                navChk.className = 'nav-btn active-pub';
-            }
+            navSch.className = appState.tab === 'itinerary' ? 'nav-btn active-pub' : 'nav-btn';
+            navChk.className = appState.tab === 'check' ? 'nav-btn active-pub' : 'nav-btn';
         }
 
-        // 3. 컨텐츠 영역
+        // 3. 컨텐츠
         var content = document.getElementById('content-area');
-        content.innerHTML = ''; // 초기화
+        content.innerHTML = '';
 
         // 팁 박스
         document.getElementById('tip-title').innerText = appState.mode === 'car' ? txt.tipTitleCar : txt.tipTitlePub;
@@ -325,9 +336,6 @@
         document.getElementById('tip-list').innerHTML = tipHtml;
 
         if (appState.tab === 'itinerary') {
-            // [일정 탭]
-            
-            // Day 탭 버튼
             var daysHtml = '<div class="day-tabs">';
             txt.days.forEach(function(d, i) {
                 var isActive = (i + 1) === appState.day;
@@ -337,29 +345,27 @@
             });
             daysHtml += '</div>';
 
-            // 카드 내용
             var dayEvents = TRIP_EVENTS[appState.mode][appState.day - 1];
             var eventsHtml = '<div class="card">';
-            // 카드 헤더
             eventsHtml += '<div class="card-header"><div>';
             eventsHtml += '<span class="date-text '+ (appState.mode==='car'?'text-car':'text-pub') +'">'+ txt.days[appState.day-1] +'</span>';
             eventsHtml += '<div class="title-text">'+ txt.dayTitles[appState.day-1] +'</div>';
             eventsHtml += '</div></div>';
             
-            // 이벤트 리스트
             eventsHtml += '<div>';
             dayEvents.forEach(function(e) {
                 var mapBtn = e.loc ? '<button onclick="openMap(\''+e.loc+'\')" class="btn-map '+(appState.mode==='car'?'btn-map-car':'btn-map-pub')+'">📍 '+txt.map+'</button>' : '';
-                
-                // 뱃지 생성
                 var badges = '';
                 if(e.p) badges += '<span class="badge badge-park">🅿️ ' + (e.p==='Free'?txt.parking+': 0¥':e.p) + '</span>';
                 if(e.warn) badges += '<div class="badge badge-warn">⚠️ ' + txt.warn + '</div>';
                 if(e.flower) badges += '<div class="badge badge-flower">🌸 ' + txt.flower + '</div>';
                 if(e.warn48) badges += '<div class="badge badge-time">⏰ ' + txt.warn48 + '</div>';
 
+                // 색상 클래스 (type 기반)
+                var iconClass = 'icon-' + (e.type || 'car');
+
                 eventsHtml += '<div class="event-item">';
-                eventsHtml += '<div class="icon-box icon-'+ (e.iconName || 'car') +'">'+e.icon+'</div>';
+                eventsHtml += '<div class="icon-box '+iconClass+'">'+e.emoji+'</div>';
                 eventsHtml += '<div class="event-content">';
                 eventsHtml += '<div style="display:flex; justify-content:space-between; align-items:center;">';
                 eventsHtml += '<span class="time-badge">'+e.t+'</span>' + mapBtn;
@@ -369,27 +375,19 @@
                 eventsHtml += badges;
                 eventsHtml += '</div></div>';
             });
-            eventsHtml += '</div>'; // end event list
+            eventsHtml += '</div>';
 
-            // 하단 컨트롤 (이전/다음)
             eventsHtml += '<div class="nav-controls">';
-            if (appState.day > 1) {
-                eventsHtml += '<button onclick="setDay('+(appState.day-1)+')" class="nav-control-btn">◀ '+txt.prev+'</button>';
-            } else { eventsHtml += '<div></div>'; }
-            
+            if (appState.day > 1) eventsHtml += '<button onclick="setDay('+(appState.day-1)+')" class="nav-control-btn">◀ '+txt.prev+'</button>';
+            else eventsHtml += '<div></div>';
             eventsHtml += '<button onclick="scrollToTop()" class="nav-control-btn btn-top">⬆ '+txt.top+'</button>';
-            
-            if (appState.day < 5) {
-                eventsHtml += '<button onclick="setDay('+(appState.day+1)+')" class="nav-control-btn">'+txt.next+' ▶</button>';
-            } else { eventsHtml += '<div></div>'; }
-            eventsHtml += '</div>'; // end nav controls
-
-            eventsHtml += '</div>'; // end card
+            if (appState.day < 5) eventsHtml += '<button onclick="setDay('+(appState.day+1)+')" class="nav-control-btn">'+txt.next+' ▶</button>';
+            else eventsHtml += '<div></div>';
+            eventsHtml += '</div></div>';
             
             content.innerHTML = daysHtml + eventsHtml;
 
         } else {
-            // [체크리스트 탭]
             var chkTitle = appState.mode === 'car' ? txt.chkTitleCar : txt.chkTitlePub;
             var chkList = [
                 {id:"c1", ko:"여권 & 항공권", ja:"パスポート & 航空券"},
@@ -405,12 +403,10 @@
             ];
 
             var listHtml = '<div class="card"><h2 style="font-size:1.25rem; font-weight:800; margin-bottom:1rem; color:#1f2937;">'+chkTitle+'</h2>';
-            
             chkList.forEach(function(item) {
-                if (item.mode && item.mode !== appState.mode) return; // 모드 필터링
+                if (item.mode && item.mode !== appState.mode) return;
                 var isChecked = appState.checks[item.id];
                 var boxClass = isChecked ? (appState.mode==='car'?'check-box-car':'check-box-pub') : '';
-                
                 listHtml += '<div onclick="toggleCheck(\''+item.id+'\')" class="check-item '+(isChecked?'checked':'')+'">';
                 listHtml += '<div class="check-box '+boxClass+'">'+(isChecked?'✔':'')+'</div>';
                 listHtml += '<span>'+ item[appState.lang] +'</span>';
@@ -430,9 +426,7 @@
     window.toggleCheck = function(id) { appState.checks[id] = !appState.checks[id]; render(); };
     window.scrollToTop = function() { document.getElementById('main-scroll').scrollTo({ top: 0, behavior: 'smooth' }); };
 
-    // 초기 실행
     render();
-
 </script>
 </body>
 </html>
