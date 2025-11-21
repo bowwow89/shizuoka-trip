@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>시즈오카 여행 가이드 V17</title>
+<title>시즈오카 여행 가이드 V1</title>
 <style>
     /* --- 1. 기본 설정 (Reset) --- */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -74,6 +74,7 @@
     .time-badge { font-size: 0.75rem; font-weight: bold; color: #6b7280; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px;}
     .event-title { font-size: 1rem; font-weight: bold; color: #1f2937; margin-bottom: 0.25rem; }
     .event-desc { font-size: 0.875rem; color: #6b7280; line-height: 1.4; white-space: pre-wrap; }
+    .trans-info { font-size: 0.8rem; color: #059669; font-weight: 600; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
     
     /* 뱃지들 */
     .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; padding: 4px 8px; border-radius: 6px; margin-top: 0.5rem; margin-right: 4px; }
@@ -183,7 +184,7 @@
             sch: "일정", chk: "체크", info: "정보",
             tipTitleCar: "🚗 렌트카 & 주차 팁", tipTitlePub: "🚌 뚜벅이 모드 팁",
             tipsCar: ["13:30 이후 수령 시 48H 요금 적용!", "관광지 주차는 대부분 무료!"],
-            tipsPub: ["시내 중심 쇼핑 & 먹방 최적화", "이동 시 '구글 맵' 더블 체크 필수!"],
+            tipsPub: ["이동 시간은 넉넉히! 구글맵 필수", "도쿄에서 벚꽃 보려면 2월 말이 딱!"],
             map: "지도", parking: "주차", warn: "도로 촬영 금지! 보행자 통로 이용",
             flower: "카와즈 벚꽃 만개 시즌 예상!",
             warn48: "13:30 이후 수령 권장 (48H 세이브)",
@@ -197,7 +198,7 @@
             sch: "日程", chk: "チェック", info: "情報",
             tipTitleCar: "🚗 レンタカー & 駐車のコツ", tipTitlePub: "🚌 公共交通のコツ",
             tipsCar: ["13:30以降受取で48H料金適用！", "観光地の駐車はほぼ無料！"],
-            tipsPub: ["市内中心部の買い物＆グルメに最適", "移動時はGoogleマップを確認！"],
+            tipsPub: ["移動時間は余裕を持って！", "東京で桜を見るなら2月下旬がベスト！"],
             map: "地図", parking: "駐車場", warn: "車道での撮影禁止！歩道を利用",
             flower: "河津桜の満開シーズン予想！",
             warn48: "13:30以降受取推奨 (48H節約)",
@@ -211,43 +212,43 @@
     var TRIP_EVENTS = {
         car: [
             [ // Day 1
-                {t:"09:10", title:{ko:"시즈오카 공항 도착", ja:"静岡空港到着"}, desc:{ko:"입국 심사 후 이동", ja:"入国審査後移動"}, emoji:"🏠", type:"fly"},
-                {t:"10:15", title:{ko:"공항버스 탑승", ja:"空港バス乗車"}, desc:{ko:"시즈오카역행 (약 50분)", ja:"静岡駅行き (約50分)"}, emoji:"🚌", type:"bus"},
+                {t:"09:10", title:{ko:"시즈오카 공항 도착", ja:"静岡空港到着"}, desc:{ko:"입국 심사 후 이동", ja:"入国審査後移動"}, trans:{ko:"[🚌 공항버스 | 50분]", ja:"[🚌 空港バス | 50分]"}, emoji:"🏠", type:"fly"},
+                {t:"10:15", title:{ko:"공항버스 탑승", ja:"空港バス乗車"}, desc:{ko:"시즈오카역행", ja:"静岡駅行き"}, trans:{ko:"[🚌 시즈오카역행 | 50분]", ja:"[🚌 静岡駅行 | 50分]"}, emoji:"🚌", type:"bus"},
                 {t:"11:30", title:{ko:"점심: 사와야카 함바그", ja:"ランチ: さわやかハンバーグ"}, desc:{ko:"세노바점 대기표 (웨이팅 활용)", ja:"セノバ店整理券 (待ち時間活用)"}, emoji:"🍔", type:"food", loc:"Sawayaka Shizuoka Cenova"},
                 {t:"13:30", title:{ko:"🚗 렌트카 수령 (48H)", ja:"🚗 レンタカー受取 (48H)"}, desc:{ko:"점심 후 수령하여 요금 절약!", ja:"ランチ後受取で料金節約！"}, emoji:"🚗", type:"car", warn48:true},
-                {t:"14:15", title:{ko:"📍 니혼다이라 유메 테라스", ja:"📍 日本平夢テラス"}, desc:{ko:"후지산 뷰 + 건축물 감상", ja:"富士山ビュー + 建築鑑賞"}, emoji:"📷", type:"camera", loc:"Nihondaira Yume Terrace", p:"Free"},
-                {t:"16:00", title:{ko:"미호의 송원", ja:"三保の松原"}, desc:{ko:"바다+소나무+후지산", ja:"海+松+富士山"}, emoji:"🌊", type:"water", loc:"Miho no Matsubara", p:"Free"},
-                {t:"19:00", title:{ko:"아오바 오뎅거리", ja:"青葉おでん街"}, desc:{ko:"검은 오뎅+맥주 (저녁)", ja:"静岡おでん+ビール"}, emoji:"🍺", type:"food", loc:"Aoba Oden Street"}
+                {t:"14:15", title:{ko:"📍 니혼다이라 유메 테라스", ja:"📍 日本平夢テラス"}, desc:{ko:"후지산 뷰 + 건축물 감상", ja:"富士山ビュー + 建築鑑賞"}, trans:{ko:"[🚗 차량 이동 | 30분]", ja:"[🚗 車移動 | 30分]"}, emoji:"📷", type:"camera", loc:"Nihondaira Yume Terrace", p:"Free"},
+                {t:"16:00", title:{ko:"미호의 송원", ja:"三保の松原"}, desc:{ko:"바다+소나무+후지산", ja:"海+松+富士山"}, trans:{ko:"[🚗 차량 이동 | 25분]", ja:"[🚗 車移動 | 25分]"}, emoji:"🌊", type:"water", loc:"Miho no Matsubara", p:"Free"},
+                {t:"19:00", title:{ko:"아오바 오뎅거리", ja:"青葉おでん街"}, desc:{ko:"검은 오뎅+맥주 (저녁)", ja:"静岡おでん+ビール"}, trans:{ko:"[🚗 시내 복귀 | 35분]", ja:"[🚗 市内復帰 | 35分]"}, emoji:"🍺", type:"food", loc:"Aoba Oden Street"}
             ],
             [ // Day 2
                 {t:"08:30", title:{ko:"호텔 출발", ja:"ホテル出発"}, desc:{ko:"아침 맑은 공기 마시며 출발", ja:"朝の澄んだ空気で出発"}, emoji:"🚗", type:"car"},
-                {t:"09:30", title:{ko:"📍 후지산 꿈의 대교", ja:"📍 富士山夢の大橋"}, desc:{ko:"육교 위 인생샷", ja:"歩道橋での記念撮影"}, emoji:"📷", type:"camera", loc:"Fuji Central Park", p:"Free", warn:true},
-                {t:"10:30", title:{ko:"오부치사사바", ja:"大淵笹場"}, desc:{ko:"후지산+녹차밭 뷰", ja:"富士山+茶畑の絶景"}, emoji:"📷", type:"camera", loc:"Obuchi Sasaba", p:"Free"},
-                {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, emoji:"💧", type:"water", loc:"Shiraito Falls", p:"500¥"},
-                {t:"14:00", title:{ko:"타누키호", ja:"田貫湖"}, desc:{ko:"호수 드라이브 & 산책", ja:"湖畔ドライブ & 散策"}, emoji:"🌊", type:"water", loc:"Lake Tanuki", p:"Free"},
-                {t:"18:00", title:{ko:"저녁: 장어덮밥", ja:"夕食: うなぎ丼"}, desc:{ko:"미시마 명물 우나기\n(추천: 사쿠라야, 우나요시)", ja:"三島名物うなぎ\n(おすすめ: 桜家, うなよし)"}, emoji:"🍱", type:"food", loc:"Sakuraya Mishima"},
-                {t:"20:00", title:{ko:"미시마 이자카야 탐방", ja:"三島居酒屋巡り"}, desc:{ko:"미시마 히로코지 역 근처\n로컬 이자카야 즐기기", ja:"三島広小路駅近く\nローカル居酒屋を楽しむ"}, emoji:"🏮", type:"beer", loc:"Mishima Hirokoji Station"}
+                {t:"09:30", title:{ko:"📍 후지산 꿈의 대교", ja:"📍 富士山夢の大橋"}, desc:{ko:"육교 위 인생샷", ja:"歩道橋での記念撮影"}, trans:{ko:"[🚗 고속도로/국도 | 45분]", ja:"[🚗 高速/国道 | 45分]"}, emoji:"📷", type:"camera", loc:"Fuji Central Park", p:"Free", warn:true},
+                {t:"10:30", title:{ko:"오부치사사바", ja:"大淵笹場"}, desc:{ko:"후지산+녹차밭 뷰", ja:"富士山+茶畑の絶景"}, trans:{ko:"[🚗 국도 이동 | 20분]", ja:"[🚗 国道移動 | 20分]"}, emoji:"📷", type:"camera", loc:"Obuchi Sasaba", p:"Free"},
+                {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, trans:{ko:"[🚗 국도 이동 | 25분]", ja:"[🚗 国道移動 | 25分]"}, emoji:"💧", type:"water", loc:"Shiraito Falls", p:"500¥"},
+                {t:"14:00", title:{ko:"타누키호", ja:"田貫湖"}, desc:{ko:"호수 드라이브 & 산책", ja:"湖畔ドライブ & 散策"}, trans:{ko:"[🚗 국도 이동 | 15분]", ja:"[🚗 国道移動 | 15分]"}, emoji:"🌊", type:"water", loc:"Lake Tanuki", p:"Free"},
+                {t:"18:00", title:{ko:"저녁: 장어덮밥", ja:"夕食: うなぎ丼"}, desc:{ko:"미시마 명물 우나기\n(추천: 사쿠라야, 우나요시)", ja:"三島名物うなぎ\n(おすすめ: 桜家, うなよし)"}, trans:{ko:"[🚗 미시마 이동 | 50분]", ja:"[🚗 三島へ移動 | 50分]"}, emoji:"🍱", type:"food", loc:"Sakuraya Mishima"},
+                {t:"20:00", title:{ko:"미시마 이자카야 탐방", ja:"三島居酒屋巡り"}, desc:{ko:"미시마 히로코지 역 근처", ja:"三島広小路駅近く"}, emoji:"🏮", type:"beer", loc:"Mishima Hirokoji Station"}
             ],
             [ // Day 3
                 {t:"09:30", title:{ko:"미시마 출발", ja:"三島出発"}, desc:{ko:"하코네 국도 1호선 드라이브", ja:"箱根国道1号線ドライブ"}, emoji:"🚗", type:"car"},
-                {t:"10:30", title:{ko:"🌋 오와쿠다니", ja:"🌋 大涌谷"}, desc:{ko:"검은 달걀(수명 연장!)", ja:"黒たまご(寿命延長!)"}, emoji:"🌋", type:"map", loc:"Owakudani", p:"530¥"},
-                {t:"13:00", title:{ko:"신요코하마역 반납", ja:"新横浜駅返却"}, desc:{ko:"13:30 전 반납 (48H 세이브)\n짐은 코인락커 보관", ja:"13:30前返却 (48Hセーブ)\n荷物はコインロッカーへ"}, emoji:"🚩", type:"map"},
-                {t:"14:00", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"만두, 탕후루 먹방", ja:"餃子, タンフル食べ歩き"}, emoji:"🥟", type:"food", loc:"Yokohama Chinatown"},
-                {t:"15:30", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, emoji:"🛍️", type:"shop", loc:"Yokohama Red Brick Warehouse"},
-                {t:"17:00", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"사쿠라기초역까지 공중 산책\n(야경 감상)", ja:"桜木町駅まで空中散歩\n(夜景鑑賞)"}, emoji:"🚠", type:"fly", loc:"YOKOHAMA AIR CABIN"},
-                {t:"18:00", title:{ko:"🎡 코스모 월드 & 저녁", ja:"🎡 コスモワールド & 夕食"}, desc:{ko:"대관람차 야경 감상\n미나토미라이 근처 저녁", ja:"大観覧車夜景鑑賞\nみなとみらい近くで夕食"}, emoji:"🎡", type:"camera", loc:"Yokohama Cosmo World"},
-                {t:"20:00", title:{ko:"도쿄로 이동 & 체크인", ja:"東京へ移動 & チェックイン"}, desc:{ko:"전철로 도쿄(신주쿠/우에노) 이동\n짐 풀고 가볍게 한잔!", ja:"電車で東京(新宿/上野)へ移動\n荷物を置いて軽く一杯！"}, emoji:"🚆", type:"train"}
+                {t:"10:30", title:{ko:"🌋 오와쿠다니", ja:"🌋 大涌谷"}, desc:{ko:"검은 달걀(수명 연장!)", ja:"黒たまご(寿命延長!)"}, trans:{ko:"[🚗 하코네 산길 | 50분]", ja:"[🚗 箱根山道 | 50分]"}, emoji:"🌋", type:"map", loc:"Owakudani", p:"530¥"},
+                {t:"13:00", title:{ko:"신요코하마역 반납", ja:"新横浜駅返却"}, desc:{ko:"13:30 전 반납 (48H 세이브)\n짐은 코인락커 보관", ja:"13:30前返却 (48Hセーブ)\n荷物はコインロッカーへ"}, trans:{ko:"[🚗 고속도로 | 60분]", ja:"[🚗 高速道路 | 60分]"}, emoji:"🚩", type:"map"},
+                {t:"13:30", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"점심: 만두, 탕후루 먹방", ja:"ランチ: 餃子, タンフル食べ歩き"}, trans:{ko:"[🚆 JR/지하철 | 20분]", ja:"[🚆 JR/地下鉄 | 20分]"}, emoji:"🥟", type:"food", loc:"Yokohama Chinatown"},
+                {t:"15:00", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, trans:{ko:"[🚶 도보 | 15분]", ja:"[🚶 徒歩 | 15分]"}, emoji:"🛍️", type:"shop", loc:"Yokohama Red Brick Warehouse"},
+                {t:"16:30", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"도심 로프웨이 (석양/야경)", ja:"都市ロープウェイ (夕日/夜景)"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"🚠", type:"fly", loc:"YOKOHAMA AIR CABIN"},
+                {t:"18:30", title:{ko:"도쿄로 이동 (신주쿠)", ja:"東京へ移動 (新宿)"}, desc:{ko:"요코하마 야경 짧게 보고 이동!", ja:"横浜夜景を短く見て移動！"}, trans:{ko:"[🚆 JR 쇼난신주쿠선 | 45분]", ja:"[🚆 JR湘南新宿ライン | 45分]"}, emoji:"🚆", type:"train"},
+                {t:"20:00", title:{ko:"도쿄 저녁 & 뒷풀이", ja:"東京夕食 & 打ち上げ"}, desc:{ko:"숙소 근처 꼬치거리(오모이데 요코초)", ja:"宿近くの思い出横丁"}, emoji:"🍺", type:"beer", loc:"Omoide Yokocho"}
             ],
             [ // Day 4
-                {t:"10:00", title:{ko:"⛩️ 마쓰치야마 성천", ja:"⛩️ 待乳山聖天"}, desc:{ko:"모노레일 타고 참배. 무(Daikon)가 상징", ja:"モノレールで参拝。大根がシンボル"}, emoji:"⛩️", type:"map", loc:"Matsuchiyama Shoden"},
-                {t:"11:30", title:{ko:"🌸 구나카가와 벚꽃", ja:"🌸 旧中川の河津桜"}, desc:{ko:"진한 핑크색 카와즈 벚꽃!", ja:"濃いピンクの河津桜！"}, emoji:"🌸", type:"flower", loc:"Old Nakagawa Riverbed", flower:true},
-                {t:"13:30", title:{ko:"점심: 카메이도/아사쿠사", ja:"ランチ: 亀戸/浅草"}, desc:{ko:"교자 또는 몬자야키", ja:"餃子 or もんじゃ焼き"}, emoji:"🥟", type:"food", loc:"Kameido Gyoza"},
-                {t:"15:00", title:{ko:"쿠라마에 카페", ja:"蔵前カフェ"}, desc:{ko:"도쿄의 브루클린", ja:"東京のブルックリン"}, emoji:"☕", type:"food", loc:"Kuramae Station"},
-                {t:"18:00", title:{ko:"스카이트리 야경", ja:"スカイツリー夜景"}, desc:{ko:"일정 마무리 쇼핑", ja:"日程の締めくくり"}, emoji:"🌃", type:"camera", loc:"Tokyo Skytree"}
+                {t:"10:00", title:{ko:"⛩️ 마쓰치야마 성천", ja:"⛩️ 待乳山聖天"}, desc:{ko:"무(Daikon)가 상징인 파워스팟", ja:"大根がシンボルのパワースポット"}, trans:{ko:"[🚆 지하철+도보 | 30분]", ja:"[🚆 地下鉄+徒歩 | 30分]"}, emoji:"⛩️", type:"map", loc:"Matsuchiyama Shoden"},
+                {t:"11:30", title:{ko:"🌸 구나카가와 벚꽃", ja:"🌸 旧中川の河津桜"}, desc:{ko:"진한 핑크색 카와즈 벚꽃!", ja:"濃いピンクの河津桜！"}, trans:{ko:"[🚕 택시/전철 | 20분]", ja:"[🚕 タクシー/電車 | 20分]"}, emoji:"🌸", type:"flower", loc:"Old Nakagawa Riverbed", flower:true},
+                {t:"13:30", title:{ko:"점심: 카메이도/아사쿠사", ja:"ランチ: 亀戸/浅草"}, desc:{ko:"교자 또는 몬자야키", ja:"餃子 or もんじゃ焼き"}, trans:{ko:"[🚆 JR 소부선 | 15분]", ja:"[🚆 JR総武線 | 15分]"}, emoji:"🥟", type:"food", loc:"Kameido Gyoza"},
+                {t:"15:00", title:{ko:"쿠라마에 카페", ja:"蔵前カフェ"}, desc:{ko:"도쿄의 브루클린", ja:"東京のブルックリン"}, trans:{ko:"[🚌 버스/도보 | 20분]", ja:"[🚌 バス/徒歩 | 20分]"}, emoji:"☕", type:"food", loc:"Kuramae Station"},
+                {t:"18:00", title:{ko:"스카이트리 야경", ja:"スカイツリー夜景"}, desc:{ko:"일정 마무리 쇼핑", ja:"日程の締めくくり"}, trans:{ko:"[🚶 도보 | 15분]", ja:"[🚶 徒歩 | 15分]"}, emoji:"🌃", type:"camera", loc:"Tokyo Skytree"}
             ],
             [ // Day 5
                 {t:"10:00", title:{ko:"체크아웃 & 아점", ja:"チェックアウト & ブランチ"}, desc:{ko:"마지막 편의점 털기", ja:"最後のコンビニ"}, emoji:"🏪", type:"shop"},
-                {t:"12:00", title:{ko:"공항으로 이동", ja:"空港へ移動"}, desc:{ko:"도쿄OUT 13:30, 시즈오카OUT 11:30 출발", ja:"東京OUT 13:30, 静岡OUT 11:30出発"}, emoji:"🚆", type:"train"},
+                {t:"12:00", title:{ko:"공항으로 이동", ja:"空港へ移動"}, desc:{ko:"도쿄OUT 13:30, 시즈오카OUT 11:30 출발", ja:"東京OUT 13:30, 静岡OUT 11:30出発"}, trans:{ko:"[🚆 스카이라이너 등 | 60분]", ja:"[🚆 スカイライナー等 | 60分]"}, emoji:"🚆", type:"train"},
                 {t:"15:00", title:{ko:"공항 도착 & 수속", ja:"空港到着 & 手続き"}, desc:{ko:"17:00 비행기", ja:"17:00 フライト"}, emoji:"✈️", type:"fly"}
             ]
         ],
@@ -258,31 +259,30 @@
     var pubEvents = JSON.parse(JSON.stringify(TRIP_EVENTS.car));
     
     // Day 1 (Public)
-    pubEvents[0][2] = {t:"11:30", title:{ko:"시즈오카역 & 점심", ja:"静岡駅 & ランチ"}, desc:{ko:"짐 맡기기 & 마구로동", ja:"荷物預け & マグロ丼"}, emoji:"🍣", type:"food"};
-    pubEvents[0][3] = {t:"13:00", title:{ko:"시내 뚜벅이 관광", ja:"市内観光"}, desc:{ko:"슨푸 성 공원", ja:"駿府城公園"}, emoji:"🚶", type:"camera"};
-    pubEvents[0][4] = {t:"15:00", title:{ko:"나나야 본점", ja:"ななや本店"}, desc:{ko:"진한 말차 젤라또", ja:"濃い抹茶ジェラート"}, emoji:"🍦", type:"food", loc:"Nanaya Shizuoka"};
+    pubEvents[0][2] = {t:"11:30", title:{ko:"시즈오카역 & 점심", ja:"静岡駅 & ランチ"}, desc:{ko:"짐 맡기기 & 마구로동", ja:"荷物預け & マグロ丼"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"🍣", type:"food"};
+    pubEvents[0][3] = {t:"13:00", title:{ko:"시내 뚜벅이 관광", ja:"市内観光"}, desc:{ko:"슨푸 성 공원", ja:"駿府城公園"}, trans:{ko:"[🚶 도보 | 15분]", ja:"[🚶 徒歩 | 15分]"}, emoji:"🚶", type:"camera"};
+    pubEvents[0][4] = {t:"15:00", title:{ko:"나나야 본점", ja:"ななや本店"}, desc:{ko:"진한 말차 젤라또", ja:"濃い抹茶ジェラート"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"🍦", type:"food", loc:"Nanaya Shizuoka"};
     
     // Day 2 (Public) - Detailed Transport
     pubEvents[1] = [
-        {t:"09:00", title:{ko:"후지노미야로 이동", ja:"富士宮へ移動"}, desc:{ko:"시즈오카역(도카이도선) → 후지역 환승\n→ 미노부선 후지노미야역 하차 (약 50분)", ja:"静岡駅(東海道線) → 富士駅乗換\n→ 身延線富士宮駅下車 (約50分)"}, emoji:"🚆", type:"train"},
-        {t:"10:00", title:{ko:"후지산 세계유산센터", ja:"富士山世界遺産センター"}, desc:{ko:"역 바로 앞. 도보 이동", ja:"駅の目の前。徒歩移動"}, emoji:"📷", type:"camera", loc:"Mt. Fuji World Heritage Centre, Shizuoka"},
-        {t:"11:30", title:{ko:"센겐 대사 & 점심", ja:"浅間大社 & ランチ"}, desc:{ko:"신사 산책 후 야키소바 거리 점심", ja:"神社散策後、焼きそば通りでランチ"}, emoji:"⛩️", type:"map", loc:"Fujisan Hongū Sengen Taisha"},
-        {t:"13:30", title:{ko:"시라이토 폭포 이동", ja:"白糸の滝へ移動"}, desc:{ko:"후지노미야역 2번 승강장 버스 탑승\n→ 시라이토노타키 하차 (약 30분)", ja:"富士宮駅2番乗り場からバス乗車\n→ 白糸の滝下車 (約30分)"}, emoji:"🚌", type:"bus", loc:"Shiraito Falls"},
-        {t:"16:00", title:{ko:"미시마로 이동", ja:"三島へ移動"}, desc:{ko:"버스 타고 역 복귀 → 전철 미시마역 이동", ja:"バスで駅へ → 電車で三島駅へ移動"}, emoji:"🚆", type:"train"},
-        {t:"18:00", title:{ko:"미시마 숙소 체크인", ja:"三島ホテルチェックイン"}, desc:{ko:"역 근처 호텔", ja:"駅近くのホテル"}, emoji:"🏨", type:"bed"},
-        {t:"19:00", title:{ko:"저녁 & 술 한잔", ja:"夕食 & 一杯"}, desc:{ko:"미시마역 남쪽 '히로코지' 근처\n이자카야 거리 추천!", ja:"三島駅南口「広小路」近く\n居酒屋通りおすすめ！"}, emoji:"🍺", type:"beer", loc:"Mishima Hirokoji Station"}
+        {t:"09:00", title:{ko:"후지노미야로 이동", ja:"富士宮へ移動"}, desc:{ko:"시즈오카역(도카이도선) → 후지역 환승\n→ 미노부선 후지노미야역 하차", ja:"静岡駅(東海道線) → 富士駅乗換\n→ 身延線富士宮駅下車"}, trans:{ko:"[🚆 JR 전철 | 50분]", ja:"[🚆 JR電車 | 50分]"}, emoji:"🚆", type:"train"},
+        {t:"10:00", title:{ko:"후지산 세계유산센터", ja:"富士山世界遺産センター"}, desc:{ko:"역 바로 앞. 도보 이동", ja:"駅の目の前。徒歩移動"}, trans:{ko:"[🚶 도보 | 5분]", ja:"[🚶 徒歩 | 5分]"}, emoji:"📷", type:"camera", loc:"Mt. Fuji World Heritage Centre, Shizuoka"},
+        {t:"11:30", title:{ko:"센겐 대사 & 점심", ja:"浅間大社 & ランチ"}, desc:{ko:"신사 산책 후 야키소바 거리 점심", ja:"神社散策後、焼きそば通りでランチ"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"⛩️", type:"map", loc:"Fujisan Hongū Sengen Taisha"},
+        {t:"13:30", title:{ko:"시라이토 폭포 이동", ja:"白糸の滝へ移動"}, desc:{ko:"후지노미야역 2번 승강장 버스 탑승\n→ 시라이토노타키 하차", ja:"富士宮駅2番乗り場からバス乗車\n→ 白糸の滝下車"}, trans:{ko:"[🚌 후지큐 버스 | 30분]", ja:"[🚌 富士急バス | 30分]"}, emoji:"🚌", type:"bus", loc:"Shiraito Falls"},
+        {t:"16:00", title:{ko:"미시마로 이동", ja:"三島へ移動"}, desc:{ko:"버스 타고 역 복귀 → 전철 미시마역 이동", ja:"バスで駅へ → 電車で三島駅へ移動"}, trans:{ko:"[🚌 버스+🚆 전철 | 60분]", ja:"[🚌 バス+🚆 電車 | 60分]"}, emoji:"🚆", type:"train"},
+        {t:"18:00", title:{ko:"미시마 숙소 체크인", ja:"三島ホテルチェックイン"}, desc:{ko:"역 근처 호텔", ja:"駅近くのホテル"}, trans:{ko:"[🚶 도보 | 5분]", ja:"[🚶 徒歩 | 5分]"}, emoji:"🏨", type:"bed"},
+        {t:"19:00", title:{ko:"저녁 & 술 한잔", ja:"夕食 & 一杯"}, desc:{ko:"미시마역 남쪽 '히로코지' 근처\n이자카야 거리 추천!", ja:"三島駅南口「広小路」近く\n居酒屋通りおすすめ！"}, trans:{ko:"[🚶 도보/택시 | 10분]", ja:"[🚶 徒歩/タクシー | 10分]"}, emoji:"🍺", type:"beer", loc:"Mishima Hirokoji Station"}
     ];
 
     // Day 3 (Public) - Detailed Transport
     pubEvents[2] = [
-        {t:"10:00", title:{ko:"신요코하마로 이동", ja:"新横浜へ移動"}, desc:{ko:"미시마역 신칸센(히카리/고다마) 탑승\n→ 신요코하마역 하차 (약 30분)", ja:"三島駅新幹線(ひかり/こだま)乗車\n→ 新横浜駅下車 (約30分)"}, emoji:"🚄", type:"train"},
-        {t:"11:00", title:{ko:"짐 보관 & 이동", ja:"荷物預け & 移動"}, desc:{ko:"역 코인락커 보관\nJR 요코하마선 → 사쿠라기초역 이동", ja:"駅ロッカーへ保管\nJR横浜線 → 桜木町駅へ移動"}, emoji:"🛅", type:"shop"},
-        {t:"12:00", title:{ko:"컵라면 박물관", ja:"カップヌードルミュージアム"}, desc:{ko:"나만의 컵라면 만들기", ja:"マイカップヌードル作り"}, emoji:"🍜", type:"food", loc:"CUPNOODLES MUSEUM YOKOHAMA"},
-        TRIP_EVENTS.car[2][3], // China Town
-        TRIP_EVENTS.car[2][4], // Red Brick
-        TRIP_EVENTS.car[2][5], // Air Cabin
-        TRIP_EVENTS.car[2][6], // Cosmo World
-        {t:"20:00", title:{ko:"도쿄 이동 & 체크인", ja:"東京移動 & チェックイン"}, desc:{ko:"짐 찾고 전철로 도쿄 이동\n숙소 근처 이자카야!", ja:"荷物を取り電車で東京へ\n宿近くの居酒屋！"}, emoji:"🚆", type:"train"}
+        {t:"10:00", title:{ko:"신요코하마로 이동", ja:"新横浜へ移動"}, desc:{ko:"미시마역 신칸센(히카리/고다마) 탑승\n→ 신요코하마역 하차", ja:"三島駅新幹線(ひかり/こだま)乗車\n→ 新横浜駅下車"}, trans:{ko:"[🚄 신칸센 | 30분]", ja:"[🚄 新幹線 | 30分]"}, emoji:"🚄", type:"train"},
+        {t:"11:00", title:{ko:"짐 보관 & 이동", ja:"荷物預け & 移動"}, desc:{ko:"역 코인락커 보관\nJR 요코하마선 → 사쿠라기초역 이동", ja:"駅ロッカーへ保管\nJR横浜線 → 桜木町駅へ移動"}, trans:{ko:"[🚆 JR 전철 | 15분]", ja:"[🚆 JR電車 | 15分]"}, emoji:"🛅", type:"shop"},
+        {t:"12:00", title:{ko:"컵라면 박물관", ja:"カップヌードルミュージアム"}, desc:{ko:"나만의 컵라면 만들기", ja:"マイカップヌードル作り"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"🍜", type:"food", loc:"CUPNOODLES MUSEUM YOKOHAMA"},
+        {t:"13:30", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"점심: 만두, 탕후루 먹방", ja:"ランチ: 餃子, タンフル食べ歩き"}, trans:{ko:"[🚌 아카이쿠츠 버스 | 15분]", ja:"[🚌 あかいくつバス | 15分]"}, emoji:"🥟", type:"food", loc:"Yokohama Chinatown"},
+        {t:"15:00", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, trans:{ko:"[🚶 도보 | 15분]", ja:"[🚶 徒歩 | 15分]"}, emoji:"🛍️", type:"shop", loc:"Yokohama Red Brick Warehouse"},
+        {t:"16:30", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"도심 로프웨이 (석양/야경)", ja:"都市ロープウェイ (夕日/夜景)"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"🚠", type:"fly", loc:"YOKOHAMA AIR CABIN"},
+        {t:"18:30", title:{ko:"도쿄 이동 (신주쿠)", ja:"東京移動 (新宿)"}, desc:{ko:"신요코하마 짐 찾고 전철로 도쿄 이동\n숙소 근처 이자카야!", ja:"荷物を取り電車で東京へ\n宿近くの居酒屋！"}, trans:{ko:"[🚆 JR/지하철 | 50분]", ja:"[🚆 JR/地下鉄 | 50分]"}, emoji:"🚆", type:"train"}
     ];
     
     TRIP_EVENTS.public = pubEvents;
@@ -370,7 +370,14 @@
                 eventsHtml += '<div style="display:flex; justify-content:space-between; align-items:center;">';
                 eventsHtml += '<span class="time-badge">'+e.t+'</span>' + mapBtn;
                 eventsHtml += '</div>';
+                
                 eventsHtml += '<div class="event-title">'+ e.title[appState.lang] +'</div>';
+                
+                // 교통수단 정보 (초록색 텍스트)
+                if(e.trans) {
+                    eventsHtml += '<div class="trans-info">'+ e.trans[appState.lang] +'</div>';
+                }
+                
                 eventsHtml += '<div class="event-desc">'+ e.desc[appState.lang] +'</div>';
                 eventsHtml += badges;
                 eventsHtml += '</div></div>';
