@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>시즈오카 도쿄 여행 V21</title>
+<title>시즈오카 여행 가이드 V23</title>
 <style>
     /* --- 1. 기본 설정 --- */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -168,6 +168,8 @@
 
 <script>
     var appState = { tab: 'itinerary', day: 1, mode: 'car', lang: 'ko', checks: {} };
+    // 전역 변수로 일정 탭 스크롤 위치 저장 (스마트 스크롤)
+    var itineraryScrollPos = 0;
 
     // --- 데이터 ---
     var LOCALE_DATA = {
@@ -180,7 +182,7 @@
             flower: "카와즈 벚꽃 만개 시즌 예상!",
             warn48: "13:30 이후 수령 권장 (48H 세이브)",
             prev: "이전 날", next: "다음 날", top: "맨 위로",
-            days: ["2/19 (목)", "2/20 (금)", "2/21 (토)", "2/22 (일)", "2/23 (월)"],
+            days: ["x/xx (목)", "x/xx (금)", "x/xx (토)", "x/xx (일)", "x/xx (월)"],
             dayTitles: ["시즈오카 도착 (09:10)", "후지산 투어", "요코하마 관광", "🌸 벚꽃 & 레트로 도쿄", "귀국 (17:00)"],
             chkTitleCar: "🚗 드라이브 준비물", chkTitlePub: "🚌 뚜벅이 준비물",
             // 정보 탭
@@ -229,7 +231,7 @@
                 {t:"12:00", title:{ko:"시라이토 폭포 & 점심", ja:"白糸の滝 & ランチ"}, desc:{ko:"야키소바 + 폭포 산책", ja:"焼きそば + 滝の散策"}, trans:{ko:"[🚗 국도 이동 | 25분]", ja:"[🚗 国道移動 | 25分]"}, emoji:"💧", type:"water", loc:"Shiraito Falls", p:"500¥"},
                 {t:"14:00", title:{ko:"타누키호", ja:"田貫湖"}, desc:{ko:"호수 드라이브 & 산책", ja:"湖畔ドライブ & 散策"}, trans:{ko:"[🚗 국도 이동 | 15분]", ja:"[🚗 国道移動 | 15分]"}, emoji:"🌊", type:"water", loc:"Lake Tanuki", p:"Free"},
                 {t:"18:00", title:{ko:"저녁: 장어덮밥", ja:"夕食: うなぎ丼"}, desc:{ko:"미시마 명물 우나기\n(추천: 사쿠라야, 우나요시)", ja:"三島名物うなぎ\n(おすすめ: 桜家, うなよし)"}, trans:{ko:"[🚗 미시마 이동 | 50분]", ja:"[🚗 三島へ移動 | 50分]"}, emoji:"🍱", type:"food", loc:"Sakuraya Mishima"},
-                {t:"20:00", title:{ko:"미시마 이자카야 탐방", ja:"三島居酒屋巡り"}, desc:{ko:"미시마 히로코지 역 근처", ja:"三島広小路駅近く"}, emoji:"🏮", type:"beer", loc:"Mishima Hirokoji Station"}
+                {t:"20:00", title:{ko:"미시마 이자카야 탐방", ja:"三島居酒屋巡り"}, desc:{ko:"미시마 히로코지 역 근처\n로컬 이자카야 즐기기", ja:"三島広小路駅近く\nローカル居酒屋を楽しむ"}, emoji:"🏮", type:"beer", loc:"Mishima Hirokoji Station"}
             ],
             [ // Day 3
                 {t:"09:30", title:{ko:"미시마 출발", ja:"三島出発"}, desc:{ko:"하코네 국도 1호선 드라이브", ja:"箱根国道1号線ドライブ"}, emoji:"🚗", type:"car"},
@@ -238,8 +240,8 @@
                 {t:"13:30", title:{ko:"🇨🇳 요코하마 차이나타운", ja:"🇨🇳 横浜中華街"}, desc:{ko:"점심: 만두, 탕후루 먹방", ja:"ランチ: 餃子, タンフル食べ歩き"}, trans:{ko:"[🚆 JR/지하철 | 20분]", ja:"[🚆 JR/地下鉄 | 20分]"}, emoji:"🥟", type:"food", loc:"Yokohama Chinatown"},
                 {t:"15:00", title:{ko:"🧱 아카렌가 창고", ja:"🧱 赤レンガ倉庫"}, desc:{ko:"쇼핑 & 바닷가 산책", ja:"ショッピング & 海辺散策"}, trans:{ko:"[🚶 도보 | 15분]", ja:"[🚶 徒歩 | 15分]"}, emoji:"🛍️", type:"shop", loc:"Yokohama Red Brick Warehouse"},
                 {t:"16:30", title:{ko:"🚠 에어 캐빈", ja:"🚠 エアキャビン"}, desc:{ko:"도심 로프웨이 (석양/야경)", ja:"都市ロープウェイ (夕日/夜景)"}, trans:{ko:"[🚶 도보 | 10분]", ja:"[🚶 徒歩 | 10分]"}, emoji:"🚠", type:"fly", loc:"YOKOHAMA AIR CABIN"},
-                {t:"18:30", title:{ko:"도쿄로 이동 (신주쿠)", ja:"東京へ移動 (新宿)"}, desc:{ko:"요코하마 야경 짧게 보고 이동!", ja:"横浜夜景を短く見て移動！"}, trans:{ko:"[🚆 JR 쇼난신주쿠선 | 45분]", ja:"[🚆 JR湘南新宿ライン | 45分]"}, emoji:"🚆", type:"train"},
-                {t:"20:00", title:{ko:"도쿄 저녁 & 뒷풀이", ja:"東京夕食 & 打ち上げ"}, desc:{ko:"숙소 근처 꼬치거리(오모이데 요코초)", ja:"宿近くの思い出横丁"}, emoji:"🍺", type:"beer", loc:"Omoide Yokocho"}
+                {t:"18:30", title:{ko:"도쿄로 이동 (신주쿠)", ja:"東京へ移動 (新宿)"}, desc:{ko:"요코하마 야경 짧게 보고 이동!\n(퇴근 시간 전 이동 추천)", ja:"横浜夜景を短く見て移動！\n(帰宅ラッシュ前推奨)"}, trans:{ko:"[🚆 JR 쇼난신주쿠선 | 45분]", ja:"[🚆 JR湘南新宿ライン | 45分]"}, emoji:"🚆", type:"train"},
+                {t:"20:00", title:{ko:"도쿄 저녁 & 뒷풀이", ja:"東京夕食 & 打ち上げ"}, desc:{ko:"숙소 근처 꼬치거리(오모이데 요코초) 등", ja:"宿近くの思い出横丁など"}, emoji:"🍺", type:"beer", loc:"Omoide Yokocho"}
             ],
             [ // Day 4
                 {t:"10:00", title:{ko:"⛩️ 마쓰치야마 성천", ja:"⛩️ 待乳山聖天"}, desc:{ko:"무(Daikon)가 상징인 파워스팟", ja:"大根がシンボルのパワースポット"}, trans:{ko:"[🚆 지하철+도보 | 30분]", ja:"[🚆 地下鉄+徒歩 | 30分]"}, emoji:"⛩️", type:"map", loc:"Matsuchiyama Shoden"},
@@ -347,7 +349,6 @@
         }
 
         if (appState.tab === 'itinerary') {
-            // [일정 탭]
             var daysHtml = '<div class="day-tabs">';
             txt.days.forEach(function(d, i) {
                 var isActive = (i + 1) === appState.day;
@@ -466,7 +467,27 @@
     // --- 전역 함수 ---
     window.toggleLang = function() { appState.lang = (appState.lang === 'ko' ? 'ja' : 'ko'); render(); };
     window.setMode = function(m) { appState.mode = m; render(); };
-    window.setTab = function(t) { appState.tab = t; render(); };
+    window.setTab = function(t) {
+        var scrollEl = document.getElementById('main-scroll');
+
+        // 1. 현재 탭이 일정 탭이라면, 스크롤 위치를 저장
+        if (appState.tab === 'itinerary') {
+            itineraryScrollPos = scrollEl.scrollTop;
+        }
+
+        // 2. 탭 변경 및 렌더링
+        appState.tab = t;
+        render();
+
+        // 3. 스크롤 위치 조정
+        if (t === 'itinerary') {
+            // 일정 탭으로 돌아오면 저장된 위치로 복원
+            scrollEl.scrollTop = itineraryScrollPos;
+        } else {
+            // 다른 탭(체크, 정보)은 항상 맨 위로
+            scrollEl.scrollTop = 0;
+        }
+    };
     window.setDay = function(d) { appState.day = d; render(); scrollToTop(); };
     window.openMap = function(q) { window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q), '_blank'); };
     window.toggleCheck = function(id) { appState.checks[id] = !appState.checks[id]; render(); };
